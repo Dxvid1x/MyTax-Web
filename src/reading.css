@@ -1,0 +1,89 @@
+/* Important supporting text remains readable without magnifying the page. */
+.field > small,
+.check-row,
+.form-note,
+.scope-check p,
+.scope-detail p,
+.eligibility p,
+.paid-note,
+.where-to-find p,
+.result-disclaimer,
+.data-actions small,
+.ledger-welcome,
+.ledger-filter-panel label,
+.ledger-account-manage p {
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.page-head p,
+.panel > p,
+.about-page p,
+.guide-topic p,
+.story-chapter-copy p {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+}
+.period-control small,
+.transaction-info small,
+.transaction-meta,
+.entry-action small,
+.cash-overview-copy > small,
+.year-tag,
+.save-status,
+.footer,
+.settings-trigger,
+.settings-drawer button,
+.story-scene-note,
+.opening-trust,
+.result-income-context {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+.transaction-info strong {
+  line-height: 1.7;
+}
+.scope-question {
+  padding-block: 20px;
+}
+.scope-check > p {
+  max-width: 58ch;
+}
+.ledger-welcome {
+  padding-block: 20px;
+}
+.about-page p {
+  max-width: 70ch;
+}
+.ledger .entry-action.expense-entry {
+  border-color: var(--negative-line);
+}
+.ledger .entry-action.expense-entry:hover,
+.ledger .entry-action.expense-entry:focus-visible {
+  box-shadow: 0 0 0 3px var(--negative-soft);
+}
+.modal p {
+  line-height: 1.8;
+}
+@media (max-width: 760px) {
+  .check-row {
+    align-items: flex-start;
+  }
+  .check-row input {
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .footer div {
+    gap: 14px;
+  }
+}
+@media (max-width: 650px) {
+  .workspace.tax-beginner {
+    margin-top: 12px;
+  }
+  .tax-beginner .page-head p {
+    margin-bottom: 0;
+  }
+  .tax-beginner .year-choice {
+    margin-bottom: 8px;
+  }
+}

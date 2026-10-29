@@ -1,0 +1,89 @@
+:where(.app-shell) :where(button, summary, [role="button"]) {
+  border-radius: 10px;
+}
+/* Custom properties pass through the browser's internal details slots. */
+.app-shell .deduction-tile {
+  --disclosure-radius: 14px;
+  border-radius: var(--disclosure-radius);
+}
+.app-shell :is(.whatif-disclosure, .result-details) {
+  --disclosure-radius: 18px;
+  border-radius: var(--disclosure-radius);
+}
+.app-shell :is(.deduction-tile, .whatif-disclosure, .result-details) > summary {
+  border-radius: var(--disclosure-radius);
+}
+.app-shell :is(button, summary, [role="button"]) {
+  --control-ring: var(--positive);
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    filter 200ms ease,
+    translate 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    scale 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.app-shell
+  :is(
+    .planning-choice-red,
+    .expense-entry,
+    .danger,
+    .danger-button,
+    .delete-button
+  ) {
+  --control-ring: var(--negative);
+}
+@media (hover: hover) and (pointer: fine) {
+  .app-shell
+    :is(
+      button:not(:disabled),
+      summary,
+      [role="button"]:not([aria-disabled="true"])
+    ):hover {
+    translate: 0 -1px;
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--control-ring) 60%, transparent),
+      0 7px 18px #00000010;
+  }
+}
+.app-shell
+  :is(
+    button:not(:disabled),
+    summary,
+    [role="button"]:not([aria-disabled="true"])
+  ):active {
+  translate: 0 1px;
+  scale: 0.985;
+}
+.app-shell :is(button, summary, [role="button"]):focus-visible {
+  outline: 2px solid var(--control-ring);
+  outline-offset: 4px;
+}
+.app-shell button:disabled {
+  translate: none;
+  scale: none;
+  box-shadow: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell :is(button, summary, [role="button"]) {
+    transition: none;
+  }
+  .app-shell
+    :is(
+      button:not(:disabled),
+      summary,
+      [role="button"]:not([aria-disabled="true"])
+    ):is(:hover, :active) {
+    translate: none;
+    scale: none;
+  }
+}
+@media print {
+  .app-shell :is(button, summary) {
+    translate: none;
+    scale: none;
+    box-shadow: none;
+  }
+}

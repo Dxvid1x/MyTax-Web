@@ -1,0 +1,65 @@
+.scope-check {
+  --uncertain: #805800;
+  --uncertain-soft: #fff7d7;
+  --uncertain-line: #c9a22b;
+}
+:root[data-theme="dark"] .scope-check {
+  --uncertain: #f4cd62;
+  --uncertain-soft: #282112;
+  --uncertain-line: #a38428;
+}
+.app-shell .scope-question .segment button {
+  --choice-ink: var(--positive);
+  --choice-soft: var(--positive-soft);
+  --choice-line: var(--positive-line);
+  --control-ring: var(--choice-ink);
+}
+.app-shell .scope-question .segment button[data-answer="no"] {
+  --choice-ink: var(--negative);
+  --choice-soft: var(--negative-soft);
+  --choice-line: var(--negative-line);
+}
+.app-shell .scope-question .segment button[data-answer="unknown"] {
+  --choice-ink: var(--uncertain);
+  --choice-soft: var(--uncertain-soft);
+  --choice-line: var(--uncertain-line);
+}
+.app-shell .scope-question .segment button[aria-pressed="true"],
+.app-shell .scope-question .segment button:focus-visible {
+  color: var(--choice-ink);
+  background: var(--choice-soft);
+  border-color: var(--choice-line);
+  box-shadow: inset 0 0 0 1px var(--choice-line);
+}
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .scope-question .segment button:hover {
+    color: var(--choice-ink);
+    background: var(--choice-soft);
+    border-color: var(--choice-line);
+    box-shadow: 0 0 0 1px var(--choice-ink);
+  }
+}
+.scope-check .scope-detail {
+  padding: 0;
+  min-width: 0;
+}
+.scope-check .scope-detail > summary {
+  padding: 14px 18px;
+  margin: 0;
+  min-height: 54px;
+  line-height: 1.7;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+.scope-check .scope-detail > p {
+  padding: 0 18px;
+  margin: 0 0 16px;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 650px) {
+  .app-shell .scope-question .segment {
+    width: calc(100% - 30px);
+    max-width: calc(100% - 30px);
+    min-width: 0;
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "mytax",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build && node scripts/build-pwa.mjs",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --test tests/*.test.ts",
+    "lint": "eslint src server scripts/cloud-inspect.mjs --max-warnings 0 && tsc --noEmit && tsc --noEmit -p tsconfig.server.json",
+    "format": "prettier --write src tests server index.html vercel.json tsconfig*.json package.json vite.config.ts playwright.config.ts eslint.config.mjs scripts/build-pwa.mjs scripts/cloud-inspect.mjs",
+    "format:check": "prettier --check src tests server index.html vercel.json tsconfig*.json package.json vite.config.ts playwright.config.ts eslint.config.mjs scripts/build-pwa.mjs scripts/cloud-inspect.mjs",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "lucide-react": "^0.577.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "read-excel-file": "^9.3.10"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "^24.19.1",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "eslint": "10.12.0",
+    "postgres": "^3.4.8",
+    "prettier": "3.9.9",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "8.71.0",
+    "vite": "8.3.2"
+  }
+}

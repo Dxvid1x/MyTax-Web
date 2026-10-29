@@ -1,0 +1,240 @@
+/* Reading and action hierarchy for the beginner flow. */
+.field > small,
+.check-row,
+.form-note,
+.eligibility p,
+.scope-check p,
+.scope-question small,
+.year-choice small,
+.result-disclaimer,
+.data-actions small,
+.paid-note,
+.where-to-find p {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+.field > small:not(.error-text),
+.form-note,
+.year-choice small {
+  color: var(--muted);
+}
+.app-tools {
+  margin-bottom: 0;
+}
+.hero-trust .text-button {
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+.save-status {
+  min-height: 44px;
+  white-space: normal;
+  text-align: left;
+}
+.salary-slip-help,
+.scope-helper,
+.ledger-filter-panel {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px 18px;
+  margin: 16px 0;
+  background: var(--bg-fff);
+}
+.salary-slip-help summary,
+.scope-helper summary,
+.ledger-filter-panel summary {
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1.6;
+  font-weight: 600;
+}
+.salary-slip-help p,
+.salary-slip-example figcaption {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+.salary-slip-example {
+  margin: 18px 0;
+  padding: 16px;
+  background: var(--light);
+  border-radius: 12px;
+}
+.salary-slip-example figcaption {
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.slip-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.9375rem;
+}
+.slip-row.highlighted {
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  padding: 12px;
+}
+.slip-row strong {
+  white-space: nowrap;
+}
+.slip-pointer {
+  color: var(--accent);
+  font-weight: 600;
+}
+.scope-helper .scope-check {
+  border: 0;
+  padding: 10px 0 0;
+}
+.scope-question .segment {
+  flex-wrap: wrap;
+}
+.scope-question .segment button {
+  min-height: 44px;
+  font-size: 0.9375rem;
+}
+.result-next,
+.guide-choice-note {
+  border-left: 4px solid var(--accent);
+  background: var(--light);
+  padding: 16px 20px;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 18px 0;
+}
+.ledger > .ledger-entry-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+.ledger-entry-actions .entry-action {
+  min-height: 100px;
+  padding: 20px;
+}
+.ledger-welcome {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+.ledger-filter-panel .ledger-tools {
+  margin: 18px 0 0;
+}
+.ledger-layout.no-expense-chart {
+  grid-template-columns: 1fr;
+}
+.demo-boundary {
+  background: var(--light);
+  color: var(--ink);
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  gap: 5px;
+}
+.demo-boundary strong {
+  font-size: 1.125rem;
+}
+.demo-boundary span {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+.demo-length-choice {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 18px 24px 0;
+}
+.demo-length-choice button {
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg-fff);
+  color: var(--ink);
+  font-size: 0.9375rem;
+  min-height: 44px;
+}
+.demo-length-choice [aria-pressed="true"] {
+  background: #237a4f;
+  color: white;
+  border-color: var(--accent);
+}
+.demo-chapters {
+  flex-wrap: wrap;
+}
+@media (max-width: 760px) {
+  .workspace small,
+  .workspace .small-muted,
+  .workspace .section-kicker,
+  .demo-studio small,
+  .demo-studio .demo-narration span,
+  .demo-studio .demo-only,
+  .demo-studio .demo-field > span,
+  .demo-studio .demo-windowbar,
+  .modal small,
+  .footer,
+  .save-status,
+  .guide-conditions li {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+  .app-tools {
+    padding: 0 20px;
+    margin-top: 6px;
+  }
+  .ledger-entry-actions .entry-action {
+    padding: 16px 12px;
+    gap: 10px;
+  }
+  .ledger-entry-actions .entry-action > span {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+  .ledger-entry-actions .entry-action > svg {
+    display: none;
+  }
+  .ledger-entry-actions .entry-action strong {
+    font-size: 1rem;
+  }
+  .ledger > .ledger-entry-actions {
+    gap: 10px;
+  }
+  .ledger-entry-actions .entry-action small {
+    display: none;
+  }
+  .scope-question {
+    grid-template-columns: 24px minmax(0, 1fr);
+  }
+  .scope-question > div:first-of-type {
+    grid-column: 2;
+  }
+  .scope-question .segment {
+    grid-column: 2;
+    width: 100%;
+  }
+  .scope-question .segment button {
+    flex: 1 1 auto;
+    padding: 10px 8px;
+  }
+  .slip-row {
+    flex-wrap: wrap;
+  }
+  .demo-boundary,
+  .demo-length-choice {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .result-buttons {
+    flex-wrap: wrap;
+  }
+  .transaction-list .panel-title {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+@media print {
+  .app-settings,
+  .demo-length-choice {
+    display: none;
+  }
+}

@@ -1,0 +1,533 @@
+/* One financial scene: a wallet behind income, deductions and the tax receipt. */
+.mytax-home .layered-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: center;
+  gap: 16px;
+  padding: 32px 24px 38px;
+  min-height: 560px;
+  text-align: left;
+}
+.layered-hero .hero-copy {
+  text-align: left;
+  position: relative;
+  z-index: 2;
+}
+.mytax-home .layered-hero :is(h1, h2) {
+  font-size: clamp(2.9rem, 4.35vw, 3.9rem);
+  line-height: 1.25;
+  letter-spacing: -0.04em;
+}
+.mytax-home .layered-hero .hero-copy > p {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.8;
+  max-width: 30ch;
+  margin-top: 22px;
+}
+.mytax-home .layered-hero .hero-actions {
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.mytax-home .layered-hero .hero-trust {
+  justify-content: flex-start;
+  gap: 14px;
+  flex-wrap: wrap;
+  color: var(--muted);
+}
+.hero-scene {
+  min-width: 0;
+  margin: 0;
+  position: relative;
+  isolation: isolate;
+}
+.hero-stage {
+  position: relative;
+  height: 470px;
+  perspective: 1000px;
+  overflow: clip;
+  overflow-clip-margin: 16px;
+}
+.hero-back-word {
+  position: absolute;
+  top: 97px;
+  left: 17%;
+  color: var(--line);
+  font-family: MyTaxDisplay, sans-serif;
+  font-size: clamp(70px, 7.5vw, 110px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.08em;
+}
+.hero-flow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  stroke: var(--positive);
+  stroke-width: 2;
+  stroke-dasharray: 5 9;
+  opacity: 0.3;
+}
+.hero-depth {
+  position: absolute;
+  transition: transform 300ms ease-out;
+  will-change: auto;
+}
+.hero-depth-wallet {
+  width: 72%;
+  top: 110px;
+  left: 3%;
+  z-index: 1;
+  transform: translate(var(--hero-x, 0px), var(--hero-y, 0px));
+}
+.hero-wallet {
+  width: 100%;
+  display: block;
+  filter: drop-shadow(0 18px 13px #00000018);
+}
+.hero-depth-income {
+  top: 20px;
+  left: 1%;
+  width: 55%;
+  z-index: 3;
+  transform: translate(
+      calc(var(--hero-x, 0px) * 1.2),
+      calc(var(--hero-y, 0px) * 1.2)
+    )
+    rotate(-8deg);
+}
+.hero-income-card {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--positive-line);
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 16px 32px #0000000d;
+}
+.hero-card-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--positive);
+  font-size: 0.9375rem;
+}
+.hero-income-card > strong {
+  display: block;
+  color: var(--positive);
+  font-family: MyTaxDisplay, sans-serif;
+  font-size: 1.8rem;
+  margin: 12px 0 4px;
+  white-space: nowrap;
+}
+.hero-income-card small,
+.hero-deduct-card small,
+.hero-tax-number small {
+  font-family: MyTaxBody, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.hero-income-source {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.hero-income-line {
+  display: block;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--positive);
+  margin-top: 15px;
+}
+.hero-depth-deduct {
+  top: 104px;
+  right: 0;
+  width: 47%;
+  z-index: 4;
+  transform: translate(
+      calc(var(--hero-x, 0px) * 1.5),
+      calc(var(--hero-y, 0px) * 1.5)
+    )
+    rotate(8deg);
+}
+.hero-deduct-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  color: var(--positive);
+  border: 1px solid var(--positive-line);
+  border-radius: 14px;
+  padding: 17px;
+  box-shadow: 0 12px 30px #0000000d;
+}
+.hero-deduct-card > svg {
+  flex-shrink: 0;
+}
+.hero-deduct-card span {
+  font-size: 0.9375rem;
+}
+.hero-deduct-card strong {
+  display: block;
+  margin-top: 6px;
+  font-family: MyTaxDisplay, sans-serif;
+  font-size: 1.3rem;
+  white-space: nowrap;
+}
+.hero-depth-result {
+  bottom: 11px;
+  right: 1%;
+  width: 61%;
+  z-index: 5;
+  transform: translate(
+      calc(var(--hero-x, 0px) * 1.8),
+      calc(var(--hero-y, 0px) * 1.8)
+    )
+    rotate(3deg);
+}
+.hero-result-card {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 9px 9px 2px 2px;
+  padding: 20px 23px 25px;
+  box-shadow: 0 22px 42px #00000017;
+  position: relative;
+}
+.hero-result-card::after {
+  content: "";
+  position: absolute;
+  height: 9px;
+  bottom: -8px;
+  left: -1px;
+  right: -1px;
+  background:
+    linear-gradient(135deg, var(--surface) 5px, transparent 0),
+    linear-gradient(225deg, var(--surface) 5px, transparent 0);
+  background-size: 12px 9px;
+  background-repeat: repeat-x;
+}
+.hero-receipt-top {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.875rem;
+  border-bottom: 1px dashed var(--line);
+  padding-bottom: 14px;
+}
+.hero-receipt-top > span:last-child {
+  margin-left: auto;
+  color: var(--muted);
+}
+.hero-tax-label {
+  display: block;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+.hero-tax-number {
+  color: var(--negative);
+  font-size: 2.5rem;
+  font-family: MyTaxDisplay, sans-serif;
+  display: block;
+  line-height: 1.45;
+  margin: 7px 0 16px;
+  white-space: nowrap;
+}
+.hero-net-label {
+  font-size: 0.875rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.hero-net-label b {
+  font-family: MyTaxDisplay, sans-serif;
+  font-weight: 600;
+}
+.hero-net-track {
+  height: 7px;
+  background: var(--surface-raised);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.hero-net-track > span {
+  display: block;
+  height: 100%;
+  background: var(--positive);
+  border-radius: inherit;
+}
+.hero-receipt-note {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.hero-depth-coin {
+  bottom: 16px;
+  left: 9%;
+  z-index: 6;
+  transform: translate(
+      calc(var(--hero-x, 0px) * 2),
+      calc(var(--hero-y, 0px) * 2)
+    )
+    rotate(-13deg);
+}
+.hero-coin {
+  width: 63px;
+  height: 63px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--on-action);
+  background: var(--positive);
+  border: 4px double var(--on-action);
+  box-shadow:
+    6px 4px 0 var(--positive-line),
+    10px 15px 20px #00000015;
+  font-size: 2rem;
+  font-family: MyTaxDisplay, sans-serif;
+}
+.hero-scene-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.hero-motion-control {
+  color: var(--muted);
+  font-size: 0.875rem;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  min-height: 36px;
+}
+.hero-motion-control:hover {
+  color: var(--ink);
+  border-color: var(--muted);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-income-card {
+    animation: hero-income-land 1050ms 100ms cubic-bezier(0.18, 0.8, 0.22, 1)
+      both;
+  }
+  .hero-wallet {
+    animation: hero-wallet-land 1300ms 150ms cubic-bezier(0.18, 0.8, 0.22, 1)
+      both;
+  }
+  .hero-deduct-card {
+    animation: hero-deduct-land 1100ms 650ms cubic-bezier(0.18, 0.8, 0.22, 1)
+      both;
+  }
+  .hero-result-card {
+    animation: hero-result-open 1100ms 1450ms cubic-bezier(0.18, 0.8, 0.22, 1)
+      both;
+  }
+  .hero-coin {
+    animation: hero-coin-land 1000ms 1650ms cubic-bezier(0.18, 0.8, 0.22, 1)
+      both;
+  }
+  .hero-scene[data-motion="paused"] .hero-move {
+    animation-play-state: paused;
+  }
+}
+@keyframes hero-income-land {
+  from {
+    opacity: 0;
+    transform: translate3d(-110px, 32px, -100px) rotateY(-32deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes hero-wallet-land {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 70px, -150px) rotateY(-24deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes hero-deduct-land {
+  from {
+    opacity: 0;
+    transform: translate3d(95px, -35px, 0) rotateZ(12deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes hero-result-open {
+  from {
+    opacity: 0;
+    transform: translate3d(35px, 65px, 100px) rotateX(-32deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes hero-coin-land {
+  from {
+    opacity: 0;
+    transform: translate3d(-45px, 25px, 0) rotateY(90deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 950px) {
+  .mytax-home .layered-hero {
+    padding: 30px 4px;
+    gap: 12px;
+    min-height: 500px;
+  }
+  .mytax-home .layered-hero :is(h1, h2) {
+    font-size: clamp(2.4rem, 4.8vw, 3.4rem);
+  }
+  .hero-stage {
+    height: 470px;
+  }
+  .hero-income-card {
+    padding: 14px;
+  }
+  .hero-income-card > strong {
+    font-size: 1.4rem;
+  }
+  .hero-deduct-card {
+    padding: 12px;
+    gap: 6px;
+  }
+  .hero-deduct-card strong {
+    font-size: 1.1rem;
+  }
+  .hero-deduct-card > svg {
+    width: 19px;
+  }
+  .hero-result-card {
+    padding: 15px;
+  }
+  .hero-tax-number {
+    font-size: 2.1rem;
+  }
+  .hero-depth-wallet {
+    top: 104px;
+    width: 83%;
+    left: 0;
+  }
+  .hero-depth-deduct {
+    top: 120px;
+    width: 53%;
+  }
+  .hero-depth-result {
+    width: 69%;
+  }
+}
+@media (max-width: 720px) {
+  .mytax-home .layered-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 30px 8px 26px;
+    gap: 30px;
+  }
+  .layered-hero .hero-copy {
+    text-align: center;
+  }
+  .mytax-home .layered-hero :is(h1, h2) {
+    font-size: clamp(2.25rem, 8vw, 3.1rem);
+  }
+  .mytax-home .layered-hero .hero-copy > p {
+    margin: 15px auto 0;
+  }
+  .mytax-home .layered-hero .hero-actions,
+  .mytax-home .layered-hero .hero-trust {
+    justify-content: center;
+  }
+  .hero-scene {
+    width: 100%;
+    max-width: 470px;
+    align-self: center;
+  }
+  .hero-stage {
+    height: 475px;
+  }
+  .hero-back-word {
+    font-size: 82px;
+    top: 98px;
+  }
+  .hero-depth-wallet {
+    width: 78%;
+    top: 117px;
+  }
+  .hero-depth-income {
+    left: 2%;
+    width: 57%;
+  }
+  .hero-depth-deduct {
+    top: 110px;
+    right: 2%;
+    width: 53%;
+  }
+  .hero-depth-result {
+    right: 3%;
+    width: 68%;
+    bottom: 5px;
+  }
+  .hero-depth-coin {
+    left: 7%;
+  }
+  .hero-scene-caption {
+    padding: 0 3px;
+  }
+}
+@media (max-width: 380px) {
+  .hero-depth-income {
+    width: 63%;
+  }
+  .hero-depth-deduct {
+    width: 57%;
+  }
+  .hero-deduct-card > svg {
+    display: none;
+  }
+  .hero-depth-result {
+    width: 74%;
+  }
+  .hero-depth-coin {
+    left: 0;
+  }
+  .hero-coin {
+    width: 48px;
+    height: 48px;
+    font-size: 1.6rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-depth {
+    transition: none;
+    transform: none;
+  }
+  .hero-move {
+    animation: none;
+  }
+}
+@media print {
+  .hero-move {
+    animation: none;
+  }
+  .hero-motion-control {
+    display: none;
+  }
+}

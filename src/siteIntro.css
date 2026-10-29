@@ -1,0 +1,363 @@
+.site-intro {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #f5f5f5;
+  background: #000;
+  overflow: hidden;
+}
+.site-intro::backdrop {
+  background: transparent;
+}
+.site-intro:focus {
+  outline: none;
+}
+.site-intro[data-phase="leaving"] {
+  animation: intro-reveal 1100ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.site-intro[data-phase="leaving"] .intro-stage {
+  animation: intro-handoff 1100ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.site-intro[data-phase="leaving"] :is(.intro-brand-scene, .intro-caption) {
+  animation: intro-content-away 450ms ease-out both;
+}
+.intro-stage {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+}
+.intro-orbits {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  stroke: #63df98;
+  stroke-width: 1;
+  opacity: 0.3;
+  animation: intro-orbit 1400ms ease-out both;
+}
+.intro-orbits path,
+.intro-orbits ellipse {
+  vector-effect: non-scaling-stroke;
+}
+.intro-market {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.intro-chart {
+  position: absolute;
+  width: 40%;
+  overflow: visible;
+  animation: intro-chart-enter 900ms 150ms ease-out both;
+}
+.intro-chart-left {
+  left: 0;
+  bottom: 12%;
+}
+.intro-chart-right {
+  right: 0;
+  top: 14%;
+}
+.intro-chart-grid {
+  stroke: #63df98;
+  stroke-width: 1;
+  opacity: 0.1;
+}
+.intro-chart-area {
+  fill: #63df98;
+  opacity: 0.045;
+}
+.intro-chart-rise,
+.intro-chart-fall {
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  animation: intro-chart-draw 1350ms 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.intro-chart-rise {
+  stroke: #63df98;
+}
+.intro-chart-fall {
+  stroke: #ff6787;
+  opacity: 0.65;
+  animation-delay: 350ms;
+}
+.intro-bouncing-coin {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: clamp(48px, 5.4vw, 90px);
+  aspect-ratio: 1;
+  border: 2px solid #63df98;
+  border-radius: 50%;
+  background: #113322;
+  box-shadow:
+    5px 7px 0 #071a10,
+    6px 8px 0 1px #368b5b;
+  color: #8bf4b4;
+  font:
+    700 clamp(28px, 3.4vw, 54px)/1.2 MyTaxDisplay,
+    sans-serif;
+  animation: intro-coin-bounce 1500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.intro-bouncing-coin > span {
+  display: grid;
+  place-items: center;
+  width: 78%;
+  height: 78%;
+  border: 1px solid #368b5b;
+  border-radius: inherit;
+}
+.intro-bouncing-coin-1 {
+  left: 12%;
+  top: 28%;
+  animation-delay: 80ms;
+}
+.intro-bouncing-coin-2 {
+  right: 13%;
+  top: 59%;
+  animation-delay: 230ms;
+}
+.intro-bouncing-coin-3 {
+  left: 41%;
+  bottom: 12%;
+  width: clamp(40px, 4vw, 64px);
+  animation-delay: 380ms;
+}
+.intro-brand-scene {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  position: relative;
+  padding: 32px 0;
+}
+.intro-wallet {
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  background: #63df98;
+  color: #07160e;
+  border-radius: 26px;
+  animation: intro-wallet 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.intro-wordmark {
+  font:
+    700 clamp(3.5rem, 10vw, 6rem)/1.2 MyTaxDisplay,
+    sans-serif;
+  letter-spacing: -0.05em;
+  animation: intro-wordmark 1100ms 250ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.intro-wordmark > span {
+  color: #63df98;
+}
+.intro-banknote {
+  position: absolute;
+  left: 0;
+  top: 38px;
+  display: grid;
+  place-items: center;
+  background: #63df98;
+  color: #07160e;
+  font:
+    700 34px MyTaxDisplay,
+    sans-serif;
+  width: 108px;
+  height: 60px;
+  padding: 7px;
+  border: 2px solid #07160e;
+  box-shadow: 0 0 0 1px #63df98;
+  animation: intro-banknote 850ms ease-in-out both;
+}
+.intro-banknote i {
+  width: 100%;
+  border: 1px solid #187344;
+  text-align: center;
+  font-style: normal;
+}
+.intro-caption {
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  line-height: 1.7;
+  color: #b9c7be;
+  animation: intro-wordmark 900ms 550ms ease-out both;
+}
+[data-intro-playing="true"] .home-opening,
+[data-intro-playing="true"] .home-opening *,
+[data-intro-playing="true"] .home-opening *::before,
+[data-intro-playing="true"] .home-opening *::after {
+  animation-play-state: paused;
+}
+@keyframes intro-reveal {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes intro-handoff {
+  from {
+    transform: none;
+  }
+  to {
+    transform: translateY(-28px) scale(0.96);
+  }
+}
+@keyframes intro-content-away {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+}
+@keyframes intro-orbit {
+  from {
+    opacity: 0;
+    transform: scale(0.8) rotate(-12deg);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes intro-wallet {
+  0%,
+  40% {
+    opacity: 0;
+    transform: scale(0.55) rotate(-20deg);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes intro-wordmark {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes intro-banknote {
+  0% {
+    opacity: 0;
+    transform: translateX(-220px) rotate(-25deg) scale(1.6);
+  }
+  35% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+@keyframes intro-chart-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 0.7;
+    transform: none;
+  }
+}
+@keyframes intro-chart-draw {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+@keyframes intro-coin-bounce {
+  0% {
+    opacity: 0;
+    transform: translateY(150px) rotate(-24deg) scale(0.65);
+  }
+  35% {
+    opacity: 1;
+    transform: translateY(-36px) rotate(12deg) scale(1.04);
+  }
+  58% {
+    transform: translateY(12px) rotate(-8deg) scale(0.97);
+  }
+  78% {
+    transform: translateY(-12px) rotate(4deg);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 650px) {
+  .intro-chart {
+    width: 78%;
+  }
+  .intro-chart-left {
+    bottom: 10%;
+  }
+  .intro-chart-right {
+    top: 12%;
+  }
+  .intro-bouncing-coin-1 {
+    left: 10%;
+    top: 31%;
+  }
+  .intro-bouncing-coin-2 {
+    right: 10%;
+    top: 65%;
+  }
+  .intro-bouncing-coin-3 {
+    left: 26%;
+    bottom: 8%;
+  }
+  .intro-wallet {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+  }
+  .intro-wallet svg {
+    width: 38px;
+  }
+  .intro-brand-scene {
+    gap: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-intro {
+    display: none;
+  }
+  .site-intro * {
+    animation: none;
+  }
+}
+@media print {
+  .site-intro {
+    display: none;
+  }
+}

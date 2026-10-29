@@ -1,0 +1,32 @@
+{
+  "id": "/",
+  "name": "MyTax — ภาษี เรื่องเงิน เข้าใจง่ายขึ้น",
+  "short_name": "MyTax",
+  "description": "ประมาณภาษีเงินเดือนและจดสมุดเงิน เลือกเปิดบันทึกในเบราว์เซอร์",
+  "lang": "th",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fbfdfb",
+  "theme_color": "#237a4f",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

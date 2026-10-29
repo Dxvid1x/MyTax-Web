@@ -1,0 +1,660 @@
+/* The opening spans the viewport; only the story and tools use a content column. */
+.home.mytax-home {
+  max-width: none;
+  padding: 0;
+  width: 100%;
+}
+.home-content {
+  max-width: 1180px;
+  margin: auto;
+  padding: 0 24px;
+}
+.home-opening {
+  position: relative;
+  isolation: isolate;
+  --opening-camera-start: 1.18;
+  --opening-art-start: 1.48;
+  --opening-title-start: 1.16;
+  --opening-coin-travel: 40px;
+  --opening-coin-rise: 30px;
+  min-height: 630px;
+  min-height: max(590px, calc(100svh - 165px));
+  display: grid;
+  place-items: center;
+  padding: 70px 205px 110px;
+  overflow: clip;
+}
+.opening-artwork {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.opening-camera {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 45%;
+}
+.opening-coin {
+  position: absolute;
+  display: block;
+  width: 54px;
+}
+.opening-coin svg {
+  display: block;
+  width: 100%;
+}
+.opening-coin-one {
+  left: 21%;
+  bottom: 21%;
+  transform: rotate(-12deg);
+}
+.opening-coin-two {
+  right: 21%;
+  top: 17%;
+  width: 43px;
+  transform: rotate(12deg);
+}
+.opening-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  stroke: var(--positive);
+  stroke-width: 1;
+  opacity: 0.15;
+}
+.opening-lines path:last-of-type {
+  stroke-dasharray: 4 8;
+}
+.opening-point {
+  fill: var(--positive);
+}
+.opening-money-layer,
+.opening-ledger-layer,
+.opening-mascot-layer {
+  position: absolute;
+  width: clamp(200px, 18vw, 290px);
+  top: 25%;
+  transition: transform 350ms ease-out;
+}
+.opening-money-layer {
+  right: 2%;
+  top: 47%;
+  width: clamp(180px, 17vw, 260px);
+  transform: translate(
+      calc(var(--opening-x, 0px) * -1.4),
+      calc(var(--opening-y, 0px) * -1.4)
+    )
+    rotate(-10deg);
+}
+.opening-ledger-layer {
+  right: 4%;
+  top: 13%;
+  width: clamp(220px, 21vw, 330px);
+  transform: translate(
+      calc(var(--opening-x, 0px) * 1.6),
+      calc(var(--opening-y, 0px) * 1.6)
+    )
+    rotate(10deg);
+}
+.opening-mascot-layer {
+  left: 2%;
+  top: 12%;
+  width: clamp(240px, min(26vw, 42svh), 390px);
+  transform: translate(
+      calc(var(--opening-x, 0px) * 1.4),
+      calc(var(--opening-y, 0px) * 1.4)
+    )
+    rotate(-3deg);
+}
+.opening-mascot {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+.opening-mascot-bubble {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto 16px;
+  padding: 12px 20px;
+  border: 1px solid var(--positive-line);
+  border-radius: 24px 24px 24px 6px;
+  background: var(--surface);
+  color: var(--positive);
+  font-family: MyTaxBody, sans-serif;
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  line-height: 1.6;
+  text-align: center;
+  transform: rotate(-4deg);
+}
+.opening-mascot-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: 28px;
+  width: 12px;
+  height: 12px;
+  border-right: 1px solid var(--positive-line);
+  border-bottom: 1px solid var(--positive-line);
+  background: var(--surface);
+  transform: rotate(45deg);
+}
+.opening-mascot-bubble span,
+.opening-mascot-bubble strong {
+  display: block;
+}
+.opening-mascot-bubble strong {
+  font-size: 1.4em;
+}
+.opening-money,
+.opening-ledger,
+.opening-mascot {
+  width: 100%;
+  display: block;
+  filter: drop-shadow(0 18px 16px #00000010);
+}
+.opening-spark {
+  position: absolute;
+  color: var(--positive);
+  font-size: 30px;
+  font-weight: 300;
+  opacity: 0.6;
+}
+.opening-spark-one {
+  left: 25%;
+  top: 15%;
+}
+.opening-spark-two {
+  right: 22%;
+  bottom: 20%;
+  font-size: 21px;
+}
+.opening-copy {
+  text-align: center;
+  width: 100%;
+  max-width: 670px;
+}
+.opening-copy h1 {
+  font-family: MyTaxDisplay, sans-serif;
+  font-size: clamp(3rem, 5.5vw, 4.6rem);
+  line-height: 1.35;
+  letter-spacing: -0.035em;
+  margin: 0;
+}
+.opening-title-line {
+  display: block;
+  transform-origin: 50% 50%;
+}
+.opening-copy p {
+  color: var(--muted);
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  max-width: 40ch;
+  margin: 24px auto 0;
+}
+.opening-mobile-break {
+  display: none;
+}
+.opening-explore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 30px auto 0;
+  background: var(--positive);
+  color: var(--on-action);
+  border: 1px solid var(--positive);
+  border-radius: 30px;
+  padding: 14px 22px;
+  min-height: 48px;
+  font-size: 0.9375rem;
+}
+.opening-bottom {
+  position: absolute;
+  bottom: 32px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.opening-bottom i {
+  width: 22px;
+  height: 1px;
+  background: var(--positive-line);
+}
+.home-closing-line {
+  margin: 40px 0 8px;
+  text-align: center;
+  font-family: MyTaxDisplay, sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  line-height: 1.5;
+}
+.mytax-home .home-closing {
+  border-top: 1px solid var(--line);
+  margin-top: 24px;
+  padding-top: 50px;
+}
+.mytax-home .layered-hero h2 {
+  margin: 0;
+}
+/* One strong pullback with a small settling overshoot; no cropped text masks. */
+.opening-impact-ring {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  width: clamp(300px, 45vw, 700px);
+  aspect-ratio: 1;
+  border: 1px solid var(--positive);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .opening-camera {
+    animation: opening-camera-impact 2600ms cubic-bezier(0.22, 0.82, 0.32, 1)
+      both;
+  }
+  .opening-title-line {
+    animation: opening-title-impact 1800ms 150ms
+      cubic-bezier(0.22, 0.82, 0.32, 1) both;
+  }
+  .opening-title-line:last-child {
+    animation-delay: 280ms;
+  }
+  .opening-copy p {
+    animation: opening-copy-arrive 1100ms 550ms ease-out both;
+  }
+  .opening-explore {
+    animation: opening-action-arrive 850ms 550ms ease-out both;
+  }
+  .opening-money {
+    animation: opening-money-impact 2400ms 100ms
+      cubic-bezier(0.22, 0.82, 0.32, 1) both;
+  }
+  .opening-mascot {
+    animation: opening-mascot-impact 2400ms 180ms
+      cubic-bezier(0.22, 0.82, 0.32, 1) both;
+  }
+  .opening-ledger {
+    animation: opening-mascot-impact 2400ms 260ms
+      cubic-bezier(0.22, 0.82, 0.32, 1) both;
+  }
+  .opening-lines {
+    animation: opening-background-impact 2600ms ease-out both;
+  }
+  .opening-lines path:first-child {
+    stroke-dasharray: 1600;
+    animation: opening-line-draw 2200ms 200ms ease-out both;
+  }
+  .opening-impact-ring {
+    animation: opening-impact-wave 1600ms 420ms ease-out both;
+  }
+  .opening-coin-one {
+    animation: opening-coin-left 2400ms 80ms cubic-bezier(0.22, 0.82, 0.32, 1)
+      both;
+  }
+  .opening-coin-two {
+    animation: opening-coin-right 2400ms 180ms cubic-bezier(0.22, 0.82, 0.32, 1)
+      both;
+  }
+  .opening-spark {
+    animation: opening-detail-arrive 1100ms 650ms ease-out both;
+  }
+  .opening-bottom {
+    animation: opening-action-arrive 1100ms 750ms ease-out both;
+  }
+  .opening-mascot-bubble {
+    animation: opening-shout-arrive 600ms 550ms ease-out both;
+  }
+  .opening-copy:focus-within :is(.opening-title-line, p, button) {
+    animation: none;
+  }
+}
+@keyframes opening-camera-impact {
+  0%,
+  18% {
+    transform: scale(var(--opening-camera-start));
+  }
+  58% {
+    transform: scale(0.97);
+  }
+  76% {
+    transform: scale(1.012);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes opening-title-impact {
+  0%,
+  18% {
+    opacity: 0.8;
+    transform: translateY(14px) scale(var(--opening-title-start));
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(-2px) scale(0.97);
+  }
+  76% {
+    opacity: 1;
+    transform: scale(1.015);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes opening-copy-arrive {
+  from {
+    transform: translateY(10px);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes opening-action-arrive {
+  from {
+    transform: translateY(4px);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes opening-money-impact {
+  0%,
+  18% {
+    transform: translate(16px, 14px) rotate(-10deg)
+      scale(var(--opening-art-start));
+  }
+  58% {
+    transform: translate(-4px, -2px) rotate(1deg) scale(0.98);
+  }
+  76% {
+    transform: rotate(-1deg) scale(1.015);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes opening-mascot-impact {
+  0%,
+  18% {
+    transform: translate(-16px, -10px) rotate(10deg)
+      scale(var(--opening-art-start));
+  }
+  58% {
+    transform: translate(4px, 2px) rotate(-1deg) scale(0.98);
+  }
+  76% {
+    transform: rotate(1deg) scale(1.015);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes opening-shout-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px) rotate(-4deg) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-4deg);
+  }
+}
+@keyframes opening-background-impact {
+  from {
+    opacity: 0.24;
+    transform: scale(1.25) rotate(-3deg);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes opening-line-draw {
+  from {
+    stroke-dashoffset: 1600;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes opening-impact-wave {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+  22% {
+    opacity: 0.18;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+}
+@keyframes opening-coin-left {
+  from {
+    transform: translate(
+        calc(var(--opening-coin-travel) * -1),
+        var(--opening-coin-rise)
+      )
+      rotate(-65deg) scale(1.7);
+  }
+  to {
+    transform: rotate(-12deg);
+  }
+}
+@keyframes opening-coin-right {
+  from {
+    transform: translate(
+        var(--opening-coin-travel),
+        calc(var(--opening-coin-rise) * -1)
+      )
+      rotate(65deg) scale(1.7);
+  }
+  to {
+    transform: rotate(12deg);
+  }
+}
+@keyframes opening-detail-arrive {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    transform: none;
+  }
+}
+@media (max-width: 950px) {
+  .home-opening {
+    --opening-camera-start: 1.08;
+    --opening-art-start: 1.25;
+    --opening-title-start: 1.1;
+    padding: 65px 140px 95px;
+  }
+  .opening-money-layer,
+  .opening-mascot-layer {
+    width: 145px;
+  }
+  .opening-money-layer {
+    right: 1%;
+    top: 49%;
+    width: 130px;
+  }
+  .opening-ledger-layer {
+    right: 1%;
+    top: 18%;
+    width: 165px;
+  }
+  .opening-mascot-layer {
+    left: 0;
+    top: 22%;
+    width: 175px;
+  }
+  .opening-mascot-bubble {
+    padding: 8px 12px;
+    font-size: 0.9375rem;
+  }
+  .opening-copy h1 {
+    font-size: clamp(2.7rem, 5.7vw, 3.8rem);
+  }
+  .opening-copy p {
+    max-width: 30ch;
+  }
+}
+@media (max-width: 650px) {
+  .home-content {
+    padding: 0 20px;
+  }
+  .home-opening {
+    --opening-camera-start: 1.04;
+    --opening-art-start: 1.2;
+    --opening-title-start: 1.08;
+    --opening-coin-travel: 8px;
+    --opening-coin-rise: 12px;
+    min-height: 715px;
+    padding: 25px 20px 305px;
+  }
+  .opening-copy h1 {
+    font-size: clamp(2.2rem, 9vw, 3.3rem);
+  }
+  .opening-copy p {
+    margin-top: 18px;
+    font-size: 1rem;
+    max-width: 28ch;
+  }
+  .opening-mobile-break {
+    display: inline;
+  }
+  .opening-explore {
+    margin-top: 23px;
+  }
+  .opening-money-layer,
+  .opening-ledger-layer,
+  .opening-mascot-layer {
+    width: 135px;
+    top: auto;
+    bottom: 58px;
+  }
+  .opening-money-layer {
+    right: 3%;
+    bottom: 42px;
+    width: 110px;
+  }
+  .opening-ledger-layer {
+    right: 3%;
+    bottom: 128px;
+    width: 154px;
+  }
+  .opening-mascot-layer {
+    left: 3%;
+    bottom: 49px;
+    width: 178px;
+  }
+  .opening-mascot-bubble {
+    margin-bottom: 10px;
+    padding: 6px 10px;
+    font-size: 0.875rem;
+  }
+  .opening-mascot-bubble strong {
+    font-size: 1.15em;
+  }
+  .opening-camera {
+    transform-origin: 50% 70%;
+  }
+  .opening-coin-one {
+    left: 49%;
+    bottom: 18%;
+    width: 24px;
+  }
+  .opening-coin-two {
+    right: 14%;
+    top: 10%;
+    width: 28px;
+  }
+  .opening-lines {
+    opacity: 0.12;
+  }
+  .opening-spark-one {
+    left: 7%;
+    top: 18%;
+    font-size: 20px;
+  }
+  .opening-spark-two {
+    right: 8%;
+    bottom: 44%;
+    font-size: 18px;
+  }
+  .opening-bottom {
+    bottom: 19px;
+    gap: 10px;
+  }
+  .mytax-home .home-closing {
+    padding-top: 30px;
+  }
+}
+@media (max-width: 360px) {
+  .home-opening {
+    min-height: 715px;
+  }
+  .opening-mascot-layer {
+    width: 156px;
+    bottom: 49px;
+  }
+  .opening-ledger-layer {
+    width: 138px;
+  }
+  .opening-money-layer {
+    width: 98px;
+  }
+  .opening-copy p {
+    font-size: 0.9375rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .opening-money-layer,
+  .opening-ledger-layer,
+  .opening-mascot-layer {
+    transition: none;
+  }
+  .home-opening
+    :is(
+      .opening-camera,
+      .opening-mascot,
+      .opening-mascot-bubble,
+      span,
+      p,
+      button,
+      svg,
+      path
+    ) {
+    animation: none;
+  }
+}
+@media print {
+  .opening-lines path:first-child {
+    stroke-dasharray: none;
+  }
+  .home-opening
+    :is(
+      .opening-camera,
+      .opening-mascot,
+      .opening-mascot-bubble,
+      span,
+      p,
+      button,
+      svg,
+      path
+    ) {
+    animation: none;
+  }
+  .opening-explore {
+    display: none;
+  }
+}

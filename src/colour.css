@@ -1,0 +1,266 @@
+/* Colour expresses cash direction; labels and signs retain the same meaning. */
+:root {
+  --positive: #187344;
+  --negative: #c12b45;
+  --positive-soft: #edf8f1;
+  --negative-soft: #fff0f3;
+  --positive-line: #acd6bc;
+  --negative-line: #edb4bf;
+  --surface: #ffffff;
+  --surface-raised: #f5f5f5;
+  --on-action: #ffffff;
+  --accent: var(--positive);
+  --green: var(--positive);
+  --ink: #202020;
+  --muted: #5d6260;
+  --bg-fbfdfb: #fafafa;
+}
+:root[data-theme="dark"] {
+  --positive: #63df98;
+  --negative: #ff7189;
+  --positive-soft: #121212;
+  --negative-soft: #121212;
+  --positive-line: #386b4d;
+  --negative-line: #773a46;
+  --surface: #121212;
+  --surface-raised: #202020;
+  --on-action: #06140c;
+  --accent: var(--positive);
+  --green: var(--positive);
+  --bg-fbfdfb: #000000;
+  --bg-142e21: #121212;
+  --bg-11251b: #121212;
+  --bg-ffffffed: #121212;
+  --text-e8f3dc: #f5f5f5;
+  --text-b7cbb3: #b5b5b5;
+  --text-d4e4c8: #b5b5b5;
+  --text-c6eb87: #63df98;
+  --bg-c6eb87: #63df98;
+  --text-f4fbef: #f5f5f5;
+  --text-f3fced: #f5f5f5;
+  --text-bfd0b9: #b5b5b5;
+  --text-c9dfbd: #b5b5b5;
+  --text-bcd0b5: #b5b5b5;
+  --text-aec6a3: #b5b5b5;
+  --text-e9faca: #f5f5f5;
+  --text-e7f3df: #f5f5f5;
+  --line-274d34: #363636;
+  --line-38563c: #363636;
+  --line-426a44: #363636;
+  --line-36553a: #363636;
+}
+:root[data-theme="dark"] body {
+  background: #000000;
+}
+.primary,
+:root[data-theme="dark"] .primary {
+  background: var(--positive);
+  color: var(--on-action);
+  box-shadow: none;
+}
+.primary:hover,
+:root[data-theme="dark"] .primary:hover {
+  background: var(--positive);
+  filter: brightness(0.94);
+}
+.primary:disabled {
+  filter: none;
+}
+.value-positive {
+  color: var(--positive);
+}
+.value-negative {
+  color: var(--negative);
+}
+.value-neutral {
+  color: var(--ink);
+}
+.transaction-amount.income-text {
+  color: var(--positive);
+}
+.transaction-amount.expense-text {
+  color: var(--negative);
+}
+.transaction-icon.green,
+.income-entry {
+  color: var(--positive);
+  background: var(--positive-soft);
+  border-color: var(--positive-line);
+}
+.transaction-icon.accent-bg,
+.expense-entry {
+  color: var(--negative);
+  background: var(--negative-soft);
+  border-color: var(--negative-line);
+}
+.income-entry small,
+.expense-entry small {
+  color: inherit;
+}
+.income-entry:hover {
+  background: var(--positive-soft);
+  border-color: var(--positive);
+}
+.expense-entry:hover {
+  background: var(--negative-soft);
+  border-color: var(--negative);
+}
+.cash-comparison > .cash-in .cash-label,
+.cash-comparison > .cash-in strong {
+  color: var(--positive);
+}
+.cash-comparison > .cash-out .cash-label,
+.cash-comparison > .cash-out strong {
+  color: var(--negative);
+}
+.cash-bar i {
+  background: var(--positive);
+}
+.expense-bar i,
+.category-summary .bar-track span {
+  background: var(--negative);
+}
+.cash-ring {
+  background: conic-gradient(
+    var(--positive) 0deg var(--income-angle),
+    var(--negative) var(--income-angle) 360deg
+  );
+}
+.cash-overview,
+.cash-ring > div {
+  background: var(--surface);
+  color: var(--ink);
+}
+.cash-overview {
+  border: 1px solid var(--line);
+}
+.cash-overview-copy > :is(span, p, small) {
+  color: var(--muted);
+}
+.cash-overview-copy > .value-positive {
+  color: var(--positive);
+}
+.cash-overview-copy > .value-negative {
+  color: var(--negative);
+}
+.cash-overview-copy > .value-neutral {
+  color: var(--ink);
+}
+.metric.accent-metric {
+  background: var(--surface);
+  border-color: var(--line);
+}
+.metric.accent-metric > .value-positive {
+  color: var(--positive);
+}
+.metric.accent-metric > .value-negative {
+  color: var(--negative);
+}
+.metric.accent-metric > .unknown-balance,
+.metric.accent-metric > .value-neutral {
+  color: var(--ink);
+}
+.type-segment > .income-choice.selected {
+  background: var(--positive);
+  color: var(--on-action);
+}
+.type-segment > .expense-choice.selected {
+  background: var(--negative);
+  color: white;
+}
+:root[data-theme="dark"] .type-segment > .expense-choice.selected {
+  color: #22060c;
+}
+.entry-income #transaction-amount {
+  color: var(--positive);
+}
+.entry-expense #transaction-amount {
+  color: var(--negative);
+}
+.entry-expense .primary,
+:root[data-theme="dark"] .entry-expense .primary {
+  background: var(--negative);
+  color: white;
+}
+:root[data-theme="dark"] .entry-expense .primary {
+  color: #22060c;
+}
+.picture-row.income .picture-track > span,
+.picture-row.deduct .picture-track > span {
+  background: var(--positive);
+}
+.picture-row.expense .picture-track > span {
+  background: var(--negative);
+}
+.picture-row.income .picture-label > b {
+  color: var(--positive);
+}
+.picture-row.expense .picture-label > b {
+  color: var(--negative);
+}
+.picture-row.taxable .picture-track > span {
+  background: var(--muted);
+}
+.picture-answer {
+  background: var(--surface-raised);
+  color: var(--ink);
+}
+.trial-difference > span > strong.value-positive,
+.demo-guide-saving span > b.value-positive {
+  color: var(--positive);
+}
+.trial-difference > span > strong.value-negative,
+.demo-guide-saving span > b.value-negative {
+  color: var(--negative);
+}
+.trial-difference > span > strong.value-neutral,
+.demo-guide-saving span > b.value-neutral {
+  color: var(--ink);
+}
+.trial-tax-bars i {
+  background: var(--negative);
+  opacity: 0.5;
+}
+.trial-tax-bars i:last-child {
+  background: var(--negative);
+  opacity: 1;
+}
+.demo-length-choice [aria-pressed="true"],
+.demo-calculate,
+:root[data-theme="dark"] .demo-calculate {
+  background: var(--positive);
+  color: var(--on-action);
+}
+.demo-output-panel {
+  --positive: #63df98;
+  --negative: #ff7189;
+}
+.demo-balance b.value-positive {
+  color: var(--positive);
+}
+.demo-balance b.value-negative {
+  color: var(--negative);
+}
+:root[data-theme="dark"] .demo-output-panel {
+  background: var(--surface);
+}
+:root[data-theme="dark"] .demo-screenbar {
+  background: var(--surface);
+}
+:root[data-theme="dark"] .demo-output-panel .demo-guide-saving .value-neutral {
+  color: var(--ink);
+}
+.danger {
+  color: var(--negative);
+  border-color: var(--negative-line);
+  background: var(--negative-soft);
+}
+@media print {
+  .cash-overview {
+    background: white;
+    color: black;
+  }
+  .transaction-amount {
+    color: black;
+  }
+}

@@ -1,0 +1,4 @@
+/* A readable fallback before React mounts or when JavaScript is disabled. */
+.startup-copy { max-width: 800px; margin: 12vh auto; padding: 24px; font-family: sans-serif; line-height: 1.8; color: #151515; }
+.startup-copy h1 { font-size: clamp(1.6rem, 5vw, 2.8rem); line-height: 1.5; }
+@media (prefers-color-scheme: dark) { html:has(.startup-copy) { background: #000; } .startup-copy { color: #f5f5f5; } }
