@@ -95,6 +95,9 @@ test("scope choices have distinct feedback and the scope disclosure stays inset"
       expect(inset.left).toBeGreaterThanOrEqual(14);
       expect(inset.right).toBeGreaterThanOrEqual(14);
       await page.locator(".scope-detail > summary").click();
+      // Opening the disclosure can scroll the animated panel into view. Audit
+      // its settled colours rather than freezing an intermediate fade frame.
+      await expect(page.locator(".question-panel")).toHaveCSS("opacity", "1");
       expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
       await page.locator(".scope-detail > summary").click();
     }

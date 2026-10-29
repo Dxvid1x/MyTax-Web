@@ -41,6 +41,7 @@ const LazyTaxGuide = lazy(loadTaxGuide);
 const loadTaxLaw = () =>
   import("./TaxLaw.tsx").then((m) => ({ default: m.TaxLaw }));
 const TaxLaw = lazy(loadTaxLaw);
+const Showcase = lazy(() => import("./Showcase.tsx"));
 function TaxGuide(props: ComponentProps<GuideComponent>) {
   // Keep the selected component stable for this visit, including direct links.
   const [Component] = useState(() => loadedTaxGuide ?? LazyTaxGuide);
@@ -424,6 +425,7 @@ function App() {
               onLedger={() => navigate("ledger")}
             />
           )}
+          {view === "showcase" && <Showcase onStart={() => openTax()} />}
           {view === "demo" && (
             <section className="workspace">
               <div className="demo-notice">
@@ -810,7 +812,10 @@ function Home({
       className="home mytax-home"
       style={{ "--home-nav-offset": `${navOffset}px` } as React.CSSProperties}
     >
-      <HomeOpening onTax={() => navigate("tax")} />
+      <HomeOpening
+        onTax={() => navigate("tax")}
+        onDemo={() => navigate("showcase")}
+      />
       <div className="home-content">
         <ScrollStory navOffset={navOffset} />
         <p className="home-closing-line">ง่ายแบบนี้… ต้องเลือก MyTax</p>

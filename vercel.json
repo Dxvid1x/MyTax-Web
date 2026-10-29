@@ -13,6 +13,7 @@
     { "source": "/reduce", "destination": "/index.html" },
     { "source": "/tax-law", "destination": "/index.html" },
     { "source": "/demo", "destination": "/index.html" },
+    { "source": "/showcase", "destination": "/index.html" },
     { "source": "/about", "destination": "/index.html" }
   ],
   "headers": [

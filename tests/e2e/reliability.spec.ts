@@ -82,6 +82,7 @@ test("every clean route opens and reloads, and old bookmarks migrate without los
     "/reduce",
     "/tax-law",
     "/demo",
+    "/showcase",
   ]) {
     await page.goto(path);
     await expect(page).toHaveURL(origin + path);
@@ -101,6 +102,7 @@ test("every clean route opens and reloads, and old bookmarks migrate without los
     "reduce",
     "tax-law",
     "demo",
+    "showcase",
   ]) {
     const path =
       legacy === "home" ? "/" : legacy === "tax/1" ? "/tax" : "/" + legacy;

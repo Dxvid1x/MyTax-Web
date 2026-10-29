@@ -2,7 +2,13 @@ import { useRef, useState, useEffect } from "react";
 import { ArrowDown } from "lucide-react";
 import "./opening.css";
 
-export function HomeOpening({ onTax }: { onTax: () => void }) {
+export function HomeOpening({
+  onTax,
+  onDemo,
+}: {
+  onTax: () => void;
+  onDemo: () => void;
+}) {
   const root = useRef<HTMLElement>(null);
   const [reduced, setReduced] = useState(
     () => matchMedia("(prefers-reduced-motion: reduce)").matches,
@@ -120,8 +126,8 @@ export function HomeOpening({ onTax }: { onTax: () => void }) {
           </div>
           <div className="opening-mascot-layer">
             <div className="opening-mascot-bubble">
-              <span>รวยไม่ไหวแล้ว</span>
-              <strong>โว้ยย!</strong>
+              <span>เข้าใจเงิน</span>
+              <strong>วางแผนได้</strong>
             </div>
             <img
               className="opening-mascot"
@@ -151,8 +157,9 @@ export function HomeOpening({ onTax }: { onTax: () => void }) {
           <span className="opening-title-line">เข้าใจง่ายขึ้น</span>
         </h1>
         <p>
-          เห็นภาพเงินของคุณ ตั้งแต่รายได้
-          <br className="opening-mobile-break" /> ไปจนถึงภาษีและการวางแผน
+          สำหรับคนมีเงินเดือนในไทย
+          <br className="opening-mobile-break" /> รู้ภาษี เห็นทางเลือก
+          เข้าใจเงินที่ต้องใช้
         </p>
         <div className="opening-actions">
           <button
@@ -162,10 +169,17 @@ export function HomeOpening({ onTax }: { onTax: () => void }) {
           >
             คำนวณภาษีของฉัน
           </button>
-          <button className="opening-explore" type="button" onClick={begin}>
-            ลองรู้จัก MyTax <ArrowDown size={18} />
+          <button
+            className="secondary opening-demo"
+            type="button"
+            onClick={onDemo}
+          >
+            ลองเดโม · TH / EN
           </button>
         </div>
+        <button className="opening-story-link" type="button" onClick={begin}>
+          ลองรู้จัก MyTax <ArrowDown size={16} />
+        </button>
         <ul className="opening-trust">
           <li>ประมาณภาษีเงินเดือน</li>
           <li>ใช้ได้โดยไม่สมัคร</li>

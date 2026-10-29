@@ -1,3 +1,44 @@
+.tax-beginner .year-choice {
+  padding-block: 12px;
+  margin-bottom: 16px;
+  gap: 6px 20px;
+}
+.tax-beginner .year-options button {
+  min-height: 48px;
+  padding-block: 6px;
+}
+.tax-beginner .wizard-progress {
+  padding-block: 6px;
+  margin-bottom: 18px;
+}
+.tax-beginner .wizard-progress .beginner-steps li > button {
+  min-height: 68px;
+  gap: 5px;
+}
+.tax-beginner .wizard-tube {
+  top: 24px;
+}
+@media (max-width: 600px) {
+  .tax-beginner .year-choice {
+    padding: 8px 10px;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+  .tax-beginner .year-choice small {
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+  .tax-beginner .wizard-progress {
+    padding-block: 2px;
+    margin-bottom: 10px;
+  }
+  .tax-beginner .wizard-progress .beginner-steps li > button {
+    min-height: 60px;
+  }
+  .tax-beginner .wizard-tube {
+    top: 20px;
+  }
+}
 .wizard-progress {
   position: relative;
   margin: 0 0 26px;
