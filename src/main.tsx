@@ -68,6 +68,7 @@ import "./navigationMotion.css";
 import { SiteBackdrop } from "./SiteBackdrop.tsx";
 import "./controlMotion.css";
 import "./reading.css";
+import "./ledgerWorkspace.css";
 import { SiteIntro } from "./SiteIntro.tsx";
 import { decodeCloudDocument, type CloudDocument } from "./ledgerCloudData.ts";
 
@@ -815,6 +816,7 @@ function Home({
       <HomeOpening
         onTax={() => navigate("tax")}
         onDemo={() => navigate("showcase")}
+        onTrust={() => navigate("about")}
       />
       <div className="home-content">
         <ScrollStory navOffset={navOffset} />

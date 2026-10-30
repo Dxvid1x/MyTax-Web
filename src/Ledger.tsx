@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import {
   categories,
@@ -10,7 +10,6 @@ import {
   type Transaction,
 } from "./ledger.ts";
 import {
-  Wallet,
   BookOpen,
   ArrowUpRight,
   ArrowDownLeft,
@@ -153,72 +152,73 @@ export function Ledger({
         </span>
       </div>
 
-      <div className="statement-entry">
-        <button
-          className="primary statement-import-trigger"
-          disabled={importBlocked}
-          onClick={() => setStatementOpen(true)}
-        >
-          <FileUp size={22} aria-hidden="true" /> นำเข้า Statement
-        </button>
-        <span>
-          <strong>เพิ่มหลายรายการจากไฟล์ธนาคาร</strong>
-          <span>เลือกไฟล์ · ตรวจรายการ · เพิ่มลงสมุดเงิน</span>
-        </span>
-      </div>
-      {statementOpen && (
-        <StatementImport
-          transactions={transactions}
-          blocked={importBlocked}
-          onClose={() => setStatementOpen(false)}
-          onImport={(rows) => {
-            setTransactions([...transactions, ...rows]);
-            setAnchor(
-              rows.reduce(
-                (latest, row) => (row.date > latest ? row.date : latest),
-                rows[0].date,
-              ),
-            );
-            setPeriod("month");
-            setQuery("");
-            setFilterType("all");
-            setFilterCategory("all");
-            setStatementOpen(false);
-            showToast(
-              `นำเข้า ${rows.length} รายการแล้ว ตรวจสถานะบันทึกก่อนปิดเว็บ`,
-            );
-          }}
-        />
-      )}
-      <div className="ledger-entry-actions">
-        <button
-          className="entry-action income-entry"
-          onClick={() => openEntry("income")}
-        >
+      <div className="ledger-commandbar">
+        <div className="statement-entry">
+          <button
+            className="primary statement-import-trigger"
+            disabled={importBlocked}
+            onClick={() => setStatementOpen(true)}
+          >
+            <FileUp size={22} aria-hidden="true" /> นำเข้า Statement
+          </button>
           <span>
-            <ArrowDownLeft size={28} />
+            <strong>เพิ่มหลายรายการจากไฟล์ธนาคาร</strong>
+            <span>เลือกไฟล์ · ตรวจรายการ · เพิ่มลงสมุดเงิน</span>
           </span>
-          <div>
-            <strong>จดเงินเข้า</strong>
-            <small>เงินเดือน · งานเสริม</small>
-          </div>
-          <Plus size={20} />
-        </button>
-        <button
-          className="entry-action expense-entry"
-          onClick={() => openEntry("expense")}
-        >
-          <span>
-            <ArrowUpRight size={28} />
-          </span>
-          <div>
-            <strong>จดเงินออก</strong>
-            <small>อาหาร · เดินทาง · ช้อปปิ้ง</small>
-          </div>
-          <Plus size={20} />
-        </button>
+        </div>
+        {statementOpen && (
+          <StatementImport
+            transactions={transactions}
+            blocked={importBlocked}
+            onClose={() => setStatementOpen(false)}
+            onImport={(rows) => {
+              setTransactions([...transactions, ...rows]);
+              setAnchor(
+                rows.reduce(
+                  (latest, row) => (row.date > latest ? row.date : latest),
+                  rows[0].date,
+                ),
+              );
+              setPeriod("month");
+              setQuery("");
+              setFilterType("all");
+              setFilterCategory("all");
+              setStatementOpen(false);
+              showToast(
+                `นำเข้า ${rows.length} รายการแล้ว ตรวจสถานะบันทึกก่อนปิดเว็บ`,
+              );
+            }}
+          />
+        )}
+        <div className="ledger-entry-actions">
+          <button
+            className="entry-action income-entry"
+            onClick={() => openEntry("income")}
+          >
+            <span>
+              <ArrowDownLeft size={28} />
+            </span>
+            <div>
+              <strong>จดเงินเข้า</strong>
+              <small>เงินเดือน · งานเสริม</small>
+            </div>
+            <Plus size={20} />
+          </button>
+          <button
+            className="entry-action expense-entry"
+            onClick={() => openEntry("expense")}
+          >
+            <span>
+              <ArrowUpRight size={28} />
+            </span>
+            <div>
+              <strong>จดเงินออก</strong>
+              <small>อาหาร · เดินทาง · ช้อปปิ้ง</small>
+            </div>
+            <Plus size={20} />
+          </button>
+        </div>
       </div>
-
       {!transactions.length && (
         <p className="ledger-welcome">
           เริ่มจากค่าข้าวมื้อล่าสุด — จดเงินออก แล้วใส่จำนวนเงิน
@@ -281,6 +281,28 @@ export function Ledger({
           ช่วงปัจจุบัน
         </button>
       </div>
+      <section className="ledger-balance" aria-label="สรุปเงินในช่วงที่เลือก">
+        <div className="balance-stat balance-net">
+          <span>ผลต่างช่วงนี้</span>
+          <strong className={data.net < 0 ? "value-negative" : "value-neutral"}>
+            {data.net < 0 ? "−" : ""}
+            {fmt(Math.abs(data.net))} <small>บาท</small>
+          </strong>
+        </div>
+        <div className="balance-stat">
+          <span>เงินเข้า</span>
+          <strong className="value-positive">
+            {fmt(data.income)} <small>บาท</small>
+          </strong>
+        </div>
+        <div className="balance-stat">
+          <span>เงินออก</span>
+          <strong className="value-negative">
+            {fmt(data.expense)} <small>บาท</small>
+          </strong>
+        </div>
+        <p>ผลต่างเฉพาะช่วงนี้ ไม่ใช่ยอดเงินในธนาคาร</p>
+      </section>
       <details className="ledger-filter-panel">
         <summary>
           ค้นหาและกรอง
@@ -412,107 +434,6 @@ export function Ledger({
           </button>
         </details>
       )}
-      {data.rows.length > 0 && (
-        <div className="ledger-hero">
-          <div className="cash-overview">
-            <div
-              className={
-                "cash-ring " + (!data.rows.length ? "cash-ring-empty" : "")
-              }
-              style={
-                {
-                  "--income-angle":
-                    (data.income / Math.max(1, data.income + data.expense)) *
-                      360 +
-                    "deg",
-                } as React.CSSProperties
-              }
-              aria-hidden="true"
-            >
-              <div>
-                <Wallet size={27} />
-                <span>
-                  {data.rows.length
-                    ? data.rows.length + " รายการ"
-                    : "เริ่มจดได้เลย"}
-                </span>
-              </div>
-            </div>
-            <div className="cash-overview-copy">
-              <span>ภาพรวมช่วงที่เลือก</span>
-              <h2>
-                {!data.rows.length
-                  ? "เงินของคุณ เล่าเรื่องได้"
-                  : data.net > 0
-                    ? "เงินเข้า มากกว่าเงินออก"
-                    : data.net < 0
-                      ? "เงินออก มากกว่าเงินเข้า"
-                      : "เงินเข้า เท่ากับเงินออก"}
-              </h2>
-              {data.rows.length ? (
-                <strong
-                  className={
-                    data.net > 0
-                      ? "value-positive"
-                      : data.net < 0
-                        ? "value-negative"
-                        : "value-neutral"
-                  }
-                >
-                  {data.net > 0 ? "+" : data.net < 0 ? "−" : ""}
-                  {fmt(Math.abs(data.net))} <small>บาท</small>
-                </strong>
-              ) : (
-                <p>เริ่มจากเงินเดือน หรือค่าข้าวมื้อล่าสุด</p>
-              )}
-              <small>ผลต่างเฉพาะช่วงนี้ ไม่ใช่ยอดเงินในธนาคาร</small>
-            </div>
-          </div>
-        </div>
-      )}
-      {data.rows.length > 0 && (
-        <div
-          className="cash-comparison"
-          aria-label="เปรียบเทียบเงินเข้าและเงินออก"
-        >
-          <div className="cash-in">
-            <span className="cash-label">
-              <ArrowDownLeft size={18} /> เงินเข้า
-            </span>
-            <div className="cash-bar">
-              <i
-                style={{
-                  width:
-                    (data.income / Math.max(1, data.income, data.expense)) *
-                      100 +
-                    "%",
-                }}
-              />
-            </div>
-            <strong>
-              {fmt(data.income)} <small>บาท</small>
-            </strong>
-          </div>
-          <div className="cash-out">
-            <span className="cash-label">
-              <ArrowUpRight size={18} /> เงินออก
-            </span>
-            <div className="cash-bar expense-bar">
-              <i
-                style={{
-                  width:
-                    (data.expense / Math.max(1, data.income, data.expense)) *
-                      100 +
-                    "%",
-                }}
-              />
-            </div>
-            <strong>
-              {fmt(data.expense)} <small>บาท</small>
-            </strong>
-          </div>
-        </div>
-      )}
       <div className="quick-entry">
         <span>จดด่วน</span>
         {[
@@ -550,7 +471,13 @@ export function Ledger({
             </button>
           </div>
           {data.rows.length ? (
-            <div>
+            <div className="transaction-register">
+              <div className="register-head" aria-hidden="true">
+                <span>วันที่</span>
+                <span>รายการ / หมวดหมู่</span>
+                <span>จำนวนเงิน (บาท)</span>
+                <span>จัดการ</span>
+              </div>
               {data.rows.map((t) => (
                 <article className="transaction" key={t.id}>
                   <span
@@ -565,11 +492,13 @@ export function Ledger({
                       <ArrowUpRight size={19} />
                     )}
                   </span>
+                  <time className="transaction-date" dateTime={t.date}>
+                    {dateLabel(t.date)}
+                  </time>
                   <div className="transaction-info">
                     <strong>{t.category}</strong>
                     <small>
-                      {dateLabel(t.date)}
-                      {t.note ? " · " + t.note : ""}
+                      {t.note || (t.type === "income" ? "เงินเข้า" : "เงินออก")}
                     </small>
                   </div>
                   <strong

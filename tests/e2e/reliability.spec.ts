@@ -485,7 +485,7 @@ test("result shows one answer for paid, refund, settled and unknown; details pri
         kind === "payable" ? "collect" : "celebrate",
       );
       await expect(page.locator(".result-mascot-bubble strong")).toHaveText(
-        kind === "payable" ? "บิดตามถึงบ้านนะ" : "รอดไปนะ",
+        kind === "payable" ? "วางแผนยอดจ่ายเพิ่ม" : "ตรวจยอดก่อนยื่น",
       );
       await expect(page.locator(".result-mascot img")).toHaveJSProperty(
         "naturalWidth",

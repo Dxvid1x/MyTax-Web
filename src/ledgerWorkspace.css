@@ -1,0 +1,465 @@
+/* Ledger is a working register: neutral surfaces, colour reserved for money. */
+.app-shell:has(.workspace.ledger) .site-backdrop {
+  background: var(--surface-raised);
+}
+.app-shell:has(.workspace.ledger) .site-backdrop svg {
+  display: none;
+}
+.workspace.ledger {
+  max-width: 1120px;
+  padding-top: 32px;
+}
+.ledger .page-head {
+  margin-bottom: 24px;
+}
+.ledger .page-head h1 {
+  font-size: clamp(1.7rem, 3vw, 2.1rem);
+  letter-spacing: -0.035em;
+}
+.ledger .page-head p {
+  font-size: 0.95rem;
+  margin-top: 8px;
+}
+.ledger .year-tag {
+  background: none;
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  color: var(--muted);
+}
+.ledger .statement-entry {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 20px;
+  gap: 20px;
+}
+.ledger .statement-entry .statement-import-trigger {
+  border-radius: 8px;
+  min-height: 56px;
+  font-size: 1rem;
+}
+.ledger .statement-entry > span {
+  gap: 3px;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.ledger .statement-entry strong {
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.workspace.ledger > .ledger-entry-actions {
+  gap: 12px;
+  margin: 12px 0 20px;
+}
+.ledger .ledger-entry-actions .entry-action {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  min-height: 76px;
+  padding: 14px 18px;
+  gap: 12px;
+  box-shadow: none;
+}
+.ledger .ledger-entry-actions .entry-action:hover {
+  background: var(--surface-raised);
+  border-color: var(--muted);
+  transform: none;
+}
+.ledger .ledger-entry-actions .entry-action > span {
+  background: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 0;
+}
+.ledger .income-entry > span {
+  color: var(--positive);
+}
+.ledger .expense-entry > span {
+  color: var(--negative);
+}
+.ledger .entry-action strong {
+  font-size: 1rem;
+  font-family: MyTaxBody, sans-serif;
+  font-weight: 600;
+}
+.ledger .entry-action small {
+  color: var(--muted);
+  margin-top: 2px;
+  font-size: 0.8125rem;
+}
+.ledger .entry-action > svg {
+  color: var(--muted);
+  width: 16px;
+}
+.ledger .ledger-welcome {
+  margin: 0 0 18px;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.ledger .period-toolbar {
+  padding-block: 14px;
+  border-color: var(--line);
+  gap: 12px;
+}
+.ledger .period-toolbar .segment {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 3px;
+}
+.ledger .period-toolbar .segment button {
+  border-radius: 5px;
+  color: var(--muted);
+}
+.ledger .period-toolbar .segment button.selected {
+  background: var(--surface-raised);
+  color: var(--ink);
+  box-shadow: none;
+}
+.ledger .period-control small {
+  color: var(--muted);
+}
+.ledger .ledger-filter-panel {
+  border-radius: 8px;
+  background: var(--surface);
+  border-color: var(--line);
+}
+.ledger .quick-entry {
+  margin-block: 12px 20px;
+  color: var(--muted);
+}
+.ledger .quick-entry button {
+  border-radius: 6px;
+  color: var(--muted);
+  border-color: var(--line);
+  background: var(--surface);
+}
+.ledger .panel {
+  border-color: var(--line);
+  border-radius: 12px;
+  box-shadow: none;
+}
+.ledger .panel-title h2 {
+  font-size: 1.05rem;
+}
+.ledger .panel-title .secondary {
+  border-radius: 6px;
+}
+.ledger .transaction {
+  padding-block: 18px;
+  border-color: var(--line);
+}
+.ledger .transaction-icon {
+  border-radius: 8px;
+}
+.ledger .ledger-hero {
+  margin-bottom: 12px;
+}
+.ledger .cash-overview {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+}
+.ledger .cash-ring {
+  display: none;
+}
+.ledger .cash-overview-copy > span,
+.ledger .cash-overview-copy > small {
+  color: var(--muted);
+}
+.ledger .cash-overview-copy h2 {
+  font-size: 1rem;
+  font-family: MyTaxBody, sans-serif;
+  font-weight: 500;
+}
+.ledger .cash-overview-copy > strong {
+  font-variant-numeric: tabular-nums;
+  font-size: 2.4rem;
+}
+.ledger .cash-comparison {
+  border-color: var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.ledger .cash-bar {
+  height: 5px;
+  background: var(--surface-raised);
+}
+.ledger .empty-state {
+  padding: 36px 20px;
+}
+@media (max-width: 600px) {
+  .workspace.ledger {
+    padding-top: 20px;
+  }
+  .ledger .page-head {
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .ledger .year-tag {
+    font-size: 0.75rem;
+  }
+  .ledger .statement-entry {
+    padding: 14px;
+    gap: 12px;
+  }
+  .ledger .statement-entry > span {
+    font-size: 0.8125rem;
+  }
+  .ledger .ledger-entry-actions .entry-action {
+    padding: 12px;
+    gap: 8px;
+  }
+  .ledger .entry-action small {
+    display: none;
+  }
+  .ledger .ledger-entry-actions .entry-action > svg {
+    display: none;
+  }
+  .ledger .cash-overview {
+    padding: 20px;
+  }
+  .ledger .period-toolbar {
+    flex-wrap: wrap;
+  }
+}
+.ledger .ledger-balance {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 24px 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  overflow: hidden;
+}
+.ledger .balance-stat {
+  padding: 22px 26px;
+  min-width: 0;
+}
+.ledger .balance-stat + .balance-stat {
+  border-left: 1px solid var(--line);
+}
+.ledger .balance-stat > span {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.ledger .balance-stat > strong {
+  display: block;
+  font-family: MyTaxBody, sans-serif;
+  font-size: clamp(1.4rem, 2.7vw, 2rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+  line-height: 1.3;
+  letter-spacing: -0.035em;
+}
+.ledger .balance-stat strong small {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.ledger .ledger-balance > p {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--line);
+  padding: 10px 26px;
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+.workspace.ledger > .ledger-entry-actions {
+  display: flex;
+  gap: 10px;
+  margin: 12px 0 20px;
+}
+.ledger .ledger-entry-actions .entry-action {
+  min-height: 48px;
+  padding: 10px 16px;
+  border-radius: 7px;
+}
+.ledger .entry-action small,
+.ledger .entry-action > svg {
+  display: none;
+}
+.ledger .ledger-entry-actions .entry-action > span {
+  width: 22px;
+  height: 22px;
+}
+.ledger .entry-action > span svg {
+  width: 20px;
+  height: 20px;
+}
+.ledger .ledger-layout {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+}
+.ledger .transaction-list {
+  padding: 0;
+  overflow: hidden;
+}
+.ledger .transaction-list .panel-title {
+  padding: 20px 24px;
+  margin: 0;
+  gap: 12px;
+}
+.ledger .register-head,
+.ledger .transaction {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr) minmax(110px, 180px) 84px;
+  gap: 20px;
+  align-items: center;
+  padding: 18px 24px;
+}
+.ledger .register-head {
+  background: var(--surface-raised);
+  border-block: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.8125rem;
+  padding-block: 12px;
+}
+.ledger .register-head > span:nth-child(3) {
+  text-align: right;
+}
+.ledger .register-head > span:last-child {
+  text-align: center;
+}
+.ledger .transaction-icon {
+  display: none;
+}
+.ledger .transaction-date {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.ledger .transaction-info strong {
+  font-family: MyTaxBody, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.ledger .transaction-info small {
+  font-size: 0.8125rem;
+  margin-top: 3px;
+}
+.ledger .transaction-amount {
+  text-align: right;
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+}
+.ledger .transaction-actions {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+}
+.ledger .transaction-actions .icon-button {
+  width: 40px;
+  height: 40px;
+}
+.ledger .category-summary {
+  padding: 24px;
+}
+.ledger .category-summary > h2 {
+  font-size: 1.05rem;
+}
+@media (max-width: 600px) {
+  .ledger .balance-stat {
+    padding: 16px 12px;
+  }
+  .ledger .balance-stat > span {
+    font-size: 0.75rem;
+  }
+  .ledger .balance-stat > strong {
+    font-size: 1.25rem;
+  }
+  .ledger .balance-stat strong small {
+    display: block;
+    margin-top: 4px;
+  }
+  .ledger .ledger-balance > p {
+    padding: 10px 12px;
+    font-size: 0.75rem;
+  }
+  .ledger .register-head {
+    display: none;
+  }
+  .ledger .transaction {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px 12px;
+    padding: 16px;
+  }
+  .ledger .transaction-date {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: 0.75rem;
+  }
+  .ledger .transaction-info {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .ledger .transaction-amount {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .ledger .transaction-actions {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .ledger .transaction-list .panel-title {
+    padding: 16px;
+    flex-wrap: wrap;
+  }
+  .ledger .category-summary {
+    padding: 20px;
+  }
+}
+.ledger .ledger-commandbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin: 8px 0 24px;
+}
+.ledger .ledger-commandbar .statement-entry {
+  padding: 0;
+  border: 0;
+  background: none;
+  margin: 0;
+}
+.ledger .ledger-commandbar .statement-entry > span {
+  display: none;
+}
+.ledger .ledger-commandbar .ledger-entry-actions {
+  display: flex;
+  gap: 10px;
+  margin: 0;
+}
+.ledger .period-toolbar {
+  margin-top: 0;
+}
+.ledger .category-row .bar-track {
+  background: var(--surface-raised);
+}
+@media (max-width: 600px) {
+  .ledger .ledger-commandbar {
+    gap: 12px;
+  }
+  .ledger .ledger-commandbar .statement-entry {
+    width: 100%;
+  }
+  .ledger .ledger-commandbar .statement-import-trigger {
+    width: 100%;
+  }
+  .ledger .ledger-commandbar .ledger-entry-actions {
+    width: 100%;
+  }
+  .ledger .ledger-commandbar .entry-action {
+    flex: 1;
+  }
+}

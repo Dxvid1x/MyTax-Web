@@ -154,7 +154,9 @@ export function Result({
             >
               <div className="result-mascot-bubble">
                 <strong>
-                  {kind === "payable" ? "บิดตามถึงบ้านนะ" : "รอดไปนะ"}
+                  {kind === "payable"
+                    ? "วางแผนยอดจ่ายเพิ่ม"
+                    : "ตรวจยอดก่อนยื่น"}
                 </strong>
                 <span>
                   {kind === "payable"

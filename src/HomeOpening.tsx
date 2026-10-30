@@ -5,9 +5,11 @@ import "./opening.css";
 export function HomeOpening({
   onTax,
   onDemo,
+  onTrust,
 }: {
   onTax: () => void;
   onDemo: () => void;
+  onTrust: () => void;
 }) {
   const root = useRef<HTMLElement>(null);
   const [reduced, setReduced] = useState(
@@ -185,6 +187,12 @@ export function HomeOpening({
           <li>ใช้ได้โดยไม่สมัคร</li>
           <li>เลือกเปิดบันทึกในเครื่อง</li>
         </ul>
+        <div className="opening-transparency">
+          <span>เว็บอิสระ · ผลคำนวณเป็นประมาณการ</span>
+          <button type="button" onClick={onTrust}>
+            ดูวิธีคำนวณและขอบเขต <ArrowDown size={14} aria-hidden="true" />
+          </button>
+        </div>
       </div>
       <div className="opening-bottom" aria-hidden="true">
         <span>กรอกรายได้</span>

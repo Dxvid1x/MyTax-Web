@@ -4,5 +4,5 @@ export const SITE = {
   description:
     "ประมาณภาษีเงินเดือน ลองค่าลดหย่อน และจดรายรับรายจ่าย โดยเก็บข้อมูลในเบราว์เซอร์เมื่อเปิดบันทึก",
   feedback: "", // TODO: add an owner-provided mailto: or GitHub Issues URL; never financial data in the URL.
-  creator: "", // TODO: owner-provided attribution.
+  creator: "ทีมพัฒนา MyTax", // Temporary name approved for local preview; owner can replace later.
 };
