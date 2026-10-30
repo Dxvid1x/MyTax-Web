@@ -3,6 +3,7 @@ export type View =
   | "tax"
   | "ledger"
   | "demo"
+  | "money-plan"
   | "showcase"
   | "reduce"
   | "about"
@@ -26,6 +27,7 @@ export function parseRoute(pathname: string, hash = ""): Route {
       "ledger",
       "demo",
       "showcase",
+      "money-plan",
       "reduce",
       "about",
       "tax-law",

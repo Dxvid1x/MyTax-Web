@@ -1,0 +1,432 @@
+.plus-offer {
+  margin-bottom: 32px;
+  --plus-muted: var(--ink);
+}
+.plus-offer-hero {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  align-items: center;
+  gap: 56px;
+  padding: 20px 0 36px;
+}
+.plus-wordmark {
+  font-size: 1.125rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.plus-wordmark b {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  background: var(--positive-soft);
+  color: var(--positive);
+  border-radius: 6px;
+}
+.plus-offer h1 {
+  font:
+    600 clamp(2.25rem, 4.3vw, 3.6rem)/1.45 MyTaxBody,
+    sans-serif;
+  letter-spacing: -0.045em;
+  margin: 22px 0;
+}
+.plus-offer h1 em {
+  font-style: normal;
+  color: var(--positive);
+}
+.money-followup .plus-offer-copy > p {
+  color: var(--ink);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+.plus-offer-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.plus-offer-actions .primary {
+  min-height: 52px;
+  border-radius: 9px;
+  padding-inline: 22px;
+}
+.plus-offer-actions .text-button {
+  color: var(--positive);
+  min-height: 44px;
+}
+.plus-offer-trial {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-top: 12px;
+  max-width: 42ch;
+}
+.plus-preview {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 18px 54px #10392712;
+  overflow: hidden;
+}
+.plus-preview-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.plus-preview-caption > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+.plus-preview-caption small {
+  color: var(--muted);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+.plus-preview-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--surface-raised);
+  padding: 4px;
+  border-radius: 8px;
+}
+.plus-preview-tabs button {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  padding: 10px 8px;
+  min-height: 44px;
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--ink);
+}
+.plus-preview-tabs button[aria-pressed="true"] {
+  background: var(--surface);
+  color: var(--positive);
+  font-weight: 600;
+  box-shadow: 0 1px 4px #0001;
+}
+.plus-visual-scene {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 26px 0;
+}
+.plus-orbit {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+}
+.plus-orbit > svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.plus-orbit circle {
+  fill: none;
+  stroke-width: 13;
+  transition:
+    stroke-dasharray 650ms ease,
+    stroke-dashoffset 650ms ease;
+}
+.orbit-track {
+  stroke: var(--surface-raised);
+}
+.orbit-bills {
+  stroke: var(--positive);
+}
+.orbit-goal {
+  stroke: #a8b9ee;
+}
+.orbit-free {
+  stroke: #b3d59b;
+}
+.plus-orbit > span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--positive);
+}
+.plus-orbit small {
+  font-size: 0.8125rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.plus-preview-money > span {
+  display: block;
+  color: var(--ink);
+  font-size: 0.875rem;
+}
+.plus-preview-money strong {
+  display: block;
+  font-size: clamp(2.3rem, 4vw, 3.3rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.04em;
+  margin: 8px 0;
+  font-variant-numeric: tabular-nums;
+  animation: plus-value-in 320ms ease both;
+}
+.plus-preview-money strong small {
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.plus-pocket-list {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  background: var(--surface-raised);
+  border-radius: 10px;
+}
+.plus-pocket-list > div {
+  display: grid;
+  grid-template-columns: 90px 1fr 50px;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.8125rem;
+}
+.plus-pocket-list b {
+  text-align: right;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.plus-pocket-list > div > div {
+  height: 7px;
+  background: var(--surface);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.plus-pocket-list i {
+  display: block;
+  height: 100%;
+  border-radius: 5px;
+  transition: width 650ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.pocket-bills i {
+  background: var(--positive);
+}
+.pocket-goal i {
+  background: #8a9fd6;
+}
+.pocket-spent i {
+  background: var(--negative);
+}
+.plus-preview-outcome {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 16px;
+  min-height: 44px;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.plus-preview-outcome svg {
+  flex-shrink: 0;
+  color: var(--positive);
+}
+.plus-play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--positive);
+  font: inherit;
+  font-size: 0.875rem;
+  border-radius: 7px;
+  min-height: 44px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+.plus-outcomes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.plus-outcomes article {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 22px;
+}
+.outcome-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: var(--positive-soft);
+  color: var(--positive);
+  margin-bottom: 16px;
+}
+.plus-outcomes article > small {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--ink);
+}
+.money-followup .plus-outcomes h2 {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin: 6px 0 12px;
+}
+.plus-outcomes summary {
+  font-size: 0.8125rem;
+  color: var(--positive);
+  cursor: pointer;
+  min-height: 30px;
+}
+.money-followup .plus-outcomes p {
+  font-size: 0.875rem;
+  color: var(--ink);
+  margin: 8px 0 0;
+  line-height: 1.75;
+}
+.plus-bottomline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 0;
+  font-size: 0.875rem;
+}
+.plus-bottomline > svg {
+  color: var(--positive);
+  flex-shrink: 0;
+}
+.plus-bottomline > .text-button {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--positive);
+}
+.plus-questions {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  overflow: hidden;
+}
+.plus-questions details {
+  padding: 16px 20px;
+}
+.plus-questions details + details {
+  border-top: 1px solid var(--line);
+}
+.plus-questions summary {
+  font-size: 0.875rem;
+  color: var(--ink);
+  cursor: pointer;
+  min-height: 28px;
+}
+.money-followup .plus-questions p {
+  font-size: 0.875rem;
+  color: var(--ink);
+  line-height: 1.8;
+}
+.plus-included {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+  font-size: 0.8125rem;
+}
+.plus-included span {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--positive);
+}
+.followup-heading #followup-workspace {
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  margin: 10px 0;
+  scroll-margin-top: 160px;
+}
+@keyframes plus-value-in {
+  from {
+    opacity: 0.3;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 760px) {
+  .plus-offer-hero {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-top: 4px;
+  }
+  .plus-outcomes {
+    grid-template-columns: 1fr;
+  }
+  .plus-outcomes article {
+    padding: 18px 20px;
+  }
+  .outcome-icon {
+    float: left;
+    margin: 0 16px 16px 0;
+  }
+  .plus-preview {
+    padding: 18px;
+  }
+  .plus-visual-scene {
+    gap: 16px;
+  }
+  .plus-orbit {
+    width: 130px;
+    height: 130px;
+  }
+  .plus-bottomline {
+    flex-wrap: wrap;
+  }
+  .plus-included {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plus-orbit circle,
+  .plus-pocket-list i {
+    transition: none;
+  }
+  .plus-preview-money strong {
+    animation: none;
+  }
+}
+.plus-orbit {
+  animation: plus-orbit-enter 750ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes plus-orbit-enter {
+  from {
+    opacity: 0;
+    transform: rotate(-35deg) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plus-orbit {
+    animation: none;
+  }
+}

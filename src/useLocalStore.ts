@@ -1,3 +1,4 @@
+import { FOLLOWUP_KEY } from "./followupStorage.ts";
 import { emptyLedgerSettings, type LedgerSettings } from "./ledgerExtras.ts";
 import { useEffect, useRef, useState } from "react";
 import { emptyPlan, CURRENT_YEAR, rulesFor, type TaxPlan } from "./tax.ts";
@@ -242,6 +243,7 @@ export function useLocalStore() {
     try {
       if (localStorage.getItem(STORAGE_KEY) !== expected.current)
         throw new StorageConflict();
+      localStorage.removeItem(FOLLOWUP_KEY);
       localStorage.removeItem(STORAGE_KEY);
       for (const key of LEGACY_KEYS) localStorage.removeItem(key);
       for (const key of Object.keys(localStorage).filter((key) =>

@@ -67,6 +67,25 @@ for (const theme of ["light", "dark"] as const) {
       "การใช้สิทธิ์ลดหย่อนที่เข้าเงื่อนไข",
     );
     expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+    await expect(page.locator(".law-disclosure")).toHaveCount(5);
+    await expect(page.locator(".law-disclosure[open]")).toHaveCount(0);
+    const firstTopic = page.locator(".law-disclosure > summary").first();
+    await firstTopic.focus();
+    await page.keyboard.press("Enter");
+    await expect(page.locator(".law-disclosure[open]")).toHaveCount(1);
+    await expect(
+      page.getByRole("link", { name: "อ่านตัวบท มาตรา 37", exact: true }),
+    ).toBeVisible();
+    await page.keyboard.press("Space");
+    await expect(page.locator(".law-disclosure[open]")).toHaveCount(0);
+    await expect(page.locator(".law-bandit-art img")).toHaveJSProperty(
+      "naturalWidth",
+      1254,
+    );
+    await page.screenshot({
+      path: `output/law-compact-${theme}.png`,
+      fullPage: true,
+    });
     await page.reload();
     await expect(page.locator(".law-cases article")).toHaveCount(3);
     await page.getByRole("button", { name: "กลับไปวางแผนภาษี" }).click();

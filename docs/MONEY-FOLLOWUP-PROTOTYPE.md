@@ -1,0 +1,18 @@
+# Money follow-up prototype
+
+User requested a recurring tracking experience rather than a one-time allocation. New /money-plan prototype offers demo/live-ledger modes, payday runway after pending bills and protected goal funds, deterministic scenario adjustment with undo, a six-month emergency goal and in-page review history. The homepage's closing action opens the prototype; five-item main navigation remains unchanged.
+
+Demo starts at 2026-10-07 and progresses through four synthetic weeks. It never writes synthetic transactions. Personal mode reads this month's transactions up to today and requires an explicit opening balance, unpaid bills and goal earmarks; zero input does not mean all accounts are known. Allocating less to a goal increases available cash but never increases saved emergency money. Financial calculations use integer satang. Dates clamp payday to month end.
+
+Deliberate prototype limits: state and review history are lost on navigation/reload; no background notifications, persistent plan history, bank reconciliation, paid entitlement, payment collection, account sync or expert follow-up. Disclosed on screen. Subsequent product work must implement opt-in persistence/versioned plans and actual change detection before marketing recurring tracking as a live service. No claim of conversion or willingness to pay is established.
+
+Verification: 73 unit tests passed, lint/TypeScript passed, two new browser cases passed light/dark, including mobile fit, axe scan, scenario undo, review comparisons, invalid input, and unchanged ledger storage. Production build generated during browser test setup. Screenshots output/followup-*.png. No commit/push.
+
+## Follow-up upgrade — persistent opt-in plans and reactive mascot
+Tax-law bandit is now a keyboard-accessible button. CSS animates anticipation, rapid stepping, dust and exit; completion reveals a short reminder that tax obligations remain, and a route to money-plan. Replay restores the mouse. Reduced-motion clicks reveal immediately without travel. Focus moves to the revealed heading. No extra image was needed: the existing running-pose asset is animated.
+
+Plus now restores explicitly saved personal plans from mytax.followup.v1, validates bounded schema, keeps up to 12 review snapshots, and compares current allocatable money with the last review. It highlights the highest expense category from available current-month ledger data without labelling it unnecessary. Month change blocks old opening cash until the user starts/reviews a new round. Saving refuses stale-tab overwrites and preserves unreadable saved drafts. Global confirmed clear-all removes the Plus key too. Demo stays separate and cannot be saved into personal records. Saving remains manual; edits/reviews after the last save are not automatically persisted. Existing tax/ledger export does not include the separate Plus draft; this prototype still needs a dedicated backup/import and cross-tab draft recovery UX before production rollout.
+
+No subscription collection, cloud sync, automatic/background notifications, bank connection, investment recommendation or expert monitoring has been added. Local saved plans are unencrypted and tied to this browser/origin. User-facing disclosure distinguishes these limits. Recurring value is ongoing comparison/action, not a conversion claim.
+
+Verification: 74 unit tests; 7 targeted browser cases covering both themes, mobile accessibility, persisted plan restore, no save before explicit request, stale-tab conflict, new month, global clear, native disclosures, mascot animation/replay/reduced motion and unchanged ledger storage; lint/TypeScript passed. Build passed in browser setup. No commit/push.

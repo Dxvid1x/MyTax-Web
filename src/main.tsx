@@ -56,6 +56,7 @@ import { applyTheme, readTheme } from "./theme.ts";
 import { Modal } from "./Modal.tsx";
 import { TaxWorkspace } from "./TaxWorkspace.tsx";
 import { Result } from "./Result.tsx";
+import { MoneyFollowup } from "./MoneyFollowup.tsx";
 import { Ledger } from "./Ledger.tsx";
 import { HeroScene } from "./HeroScene.tsx";
 import { ScrollStory } from "./ScrollStory.tsx";
@@ -426,6 +427,13 @@ function App() {
               onLedger={() => navigate("ledger")}
             />
           )}
+          {view === "money-plan" && (
+            <MoneyFollowup
+              key={store.uiRevision}
+              transactions={transactions}
+              onLedger={() => navigate("ledger")}
+            />
+          )}
           {view === "showcase" && <Showcase onStart={() => openTax()} />}
           {view === "demo" && (
             <section className="workspace">
@@ -452,7 +460,12 @@ function App() {
               showToast={showToast}
             />
           )}
-          {view === "tax-law" && <TaxLaw onReduce={() => navigate("reduce")} />}
+          {view === "tax-law" && (
+            <TaxLaw
+              onReduce={() => navigate("reduce")}
+              onPlan={() => navigate("money-plan")}
+            />
+          )}
           {view === "ledger" && (
             <>
               <Ledger
@@ -832,6 +845,12 @@ function Home({
             <div className="hero-actions">
               <button className="primary" onClick={() => navigate("tax")}>
                 คำนวณของฉัน <ArrowUpRight size={19} />
+              </button>
+              <button
+                className="secondary"
+                onClick={() => navigate("money-plan")}
+              >
+                ลองติดตามแผนเงิน <ArrowUpRight size={17} />
               </button>
               <button className="secondary" onClick={() => navigate("ledger")}>
                 สมุดเงิน <BookOpen size={17} />

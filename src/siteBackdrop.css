@@ -43,3 +43,30 @@ body {
     display: none;
   }
 }
+
+/* Selected direction B: soft daylight and foliage around the homepage edges. */
+.app-shell:has(.mytax-home) .site-backdrop {
+  background: var(--surface);
+}
+.app-shell:has(.mytax-home) .site-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/images/mytax-leaf-background-v1.png") center / cover
+    no-repeat;
+  opacity: 0.78;
+}
+.app-shell:has(.mytax-home) .site-backdrop svg {
+  opacity: 0.1;
+}
+:root[data-theme="dark"] .app-shell:has(.mytax-home) .site-backdrop::before {
+  filter: invert(1) hue-rotate(180deg) saturate(0.45);
+  opacity: 0.2;
+}
+@media (max-width: 600px) {
+  .app-shell:has(.mytax-home) .site-backdrop::before {
+    background-size: auto 100%;
+    background-position: left center;
+    opacity: 0.52;
+  }
+}

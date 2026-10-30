@@ -6,15 +6,46 @@
   "outputDirectory": "dist",
   "installCommand": "npm ci",
   "rewrites": [
-    { "source": "/home", "destination": "/index.html" },
-    { "source": "/tax", "destination": "/index.html" },
-    { "source": "/tax/:step", "destination": "/index.html" },
-    { "source": "/ledger", "destination": "/index.html" },
-    { "source": "/reduce", "destination": "/index.html" },
-    { "source": "/tax-law", "destination": "/index.html" },
-    { "source": "/demo", "destination": "/index.html" },
-    { "source": "/showcase", "destination": "/index.html" },
-    { "source": "/about", "destination": "/index.html" }
+    {
+      "source": "/home",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tax",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tax/:step",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ledger",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/reduce",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tax-law",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/demo",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/showcase",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/money-plan",
+      "destination": "/index.html"
+    }
   ],
   "headers": [
     {

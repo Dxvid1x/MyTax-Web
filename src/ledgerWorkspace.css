@@ -463,3 +463,33 @@
     flex: 1;
   }
 }
+
+/* Soft botanical daylight at the edges; the register keeps opaque surfaces. */
+.app-shell:has(.workspace.ledger) .site-backdrop {
+  background: var(--surface-raised);
+}
+.app-shell:has(.workspace.ledger) .site-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/images/mytax-leaf-background-v1.png") center / cover
+    no-repeat;
+  opacity: 0.38;
+}
+:root[data-theme="dark"]
+  .app-shell:has(.workspace.ledger)
+  .site-backdrop::before {
+  filter: invert(1) hue-rotate(180deg) saturate(0.45);
+  opacity: 0.12;
+}
+@media (max-width: 600px) {
+  .app-shell:has(.workspace.ledger) .site-backdrop::before {
+    background-position: left center;
+    opacity: 0.24;
+  }
+  :root[data-theme="dark"]
+    .app-shell:has(.workspace.ledger)
+    .site-backdrop::before {
+    opacity: 0.1;
+  }
+}
