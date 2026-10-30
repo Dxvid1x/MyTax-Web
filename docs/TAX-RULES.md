@@ -6,6 +6,8 @@ Scope: Thai employment salary/bonus (40(1)), individual case using the supported
 
 ## Standing rules used for both years
 
+Statement-import engineering update (2026-10-30): importing a deposit or expense into the ledger does not establish taxable gross salary or legal deduction eligibility. No rule amounts, calculation functions or tax inputs are changed by import. This note does not represent a new legal-rule review.
+
 | Rule | Official evidence | Application |
 |---|---|---|
 | Salary/bonus; expenses 50%, jointly capped at 100,000 baht | [Revenue Code 40(1), 42 bis](https://www.rd.go.th/5937.html) | One combined salary+bonus income; ledger expenses are not substituted |

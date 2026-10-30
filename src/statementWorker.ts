@@ -1,4 +1,13 @@
 import readExcelFile from "read-excel-file/web-worker";
+import { hashStatementFile } from "./statementIdentity.ts";
+import { reviewStatement, statementDocument } from "./statementReview.ts";
+import type { StatementMapping } from "./statement.ts";
+import type {
+  StatementDocument,
+  StatementEdit,
+  StatementImportState,
+} from "./statementTypes.ts";
+import type { Transaction } from "./ledger.ts";
 import {
   checkStatementRows,
   checkStatementXlsx,
@@ -8,16 +17,45 @@ import {
 } from "./statement.ts";
 
 self.onmessage = async (
-  event: MessageEvent<{ buffer: ArrayBuffer; excel: boolean }>,
+  event: MessageEvent<
+    | { buffer: ArrayBuffer; excel: boolean }
+    | {
+        kind: "review";
+        document: StatementDocument;
+        sheetIndex: number;
+        mapping: StatementMapping;
+        edits: Record<string, StatementEdit>;
+        existing: Transaction[];
+        imports: StatementImportState;
+      }
+  >,
 ) => {
   try {
+    if ("kind" in event.data && event.data.kind === "review") {
+      const { document, sheetIndex, mapping, edits, existing, imports } =
+        event.data;
+      self.postMessage({
+        rows: reviewStatement(
+          document,
+          sheetIndex,
+          mapping,
+          edits,
+          existing,
+          imports,
+        ),
+      });
+      return;
+    }
+    if (!("buffer" in event.data)) return;
     const { buffer, excel } = event.data;
+    const digest = await hashStatementFile(buffer);
     if (buffer.byteLength > STATEMENT_MAX_BYTES)
       throw new Error("ไฟล์ต้องไม่เกิน 5 MB");
     if (!excel) {
-      self.postMessage({
-        sheets: [csvStatementSheet(decodeStatementText(buffer))],
-      });
+      const document = statementDocument(digest, "csv", [
+        csvStatementSheet(decodeStatementText(buffer)),
+      ]);
+      self.postMessage({ sheets: document.tables, document });
       return;
     }
     checkStatementXlsx(buffer);
@@ -43,7 +81,8 @@ self.onmessage = async (
         ),
       }));
     if (!sheets.length) throw new Error("ไฟล์ Excel ไม่มีรายการ");
-    self.postMessage({ sheets });
+    const document = statementDocument(digest, "xlsx", sheets);
+    self.postMessage({ sheets: document.tables, document });
   } catch (error) {
     self.postMessage({
       error: error instanceof Error ? error.message : "อ่านไฟล์ไม่ได้",

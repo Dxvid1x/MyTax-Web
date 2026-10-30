@@ -207,7 +207,7 @@ test("schema 2 upgrades with numbers and ledger intact; expanded rules require r
   };
   delete (old as Record<string, unknown>).ledgerSettings;
   const restored = parseSaved(JSON.stringify(old));
-  assert.equal(restored.schemaVersion, 3);
+  assert.equal(restored.schemaVersion, 4);
   assert.equal(restored.taxPlan.scope, true);
   assert.equal(restored.transactions[0].amount, 1234);
   const changed = recoverSaved(

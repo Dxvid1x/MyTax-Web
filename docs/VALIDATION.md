@@ -1,5 +1,13 @@
 # MyTax — validation record
 
+## Phase 1 common-format core — 2026-10-30
+
+- Fresh `npm test`: 86 passed, 0 failed. `npm run format`, `format:check`, `lint` (including strict client/server types), production `build` and full Chrome `test:e2e` passed; full browser run: 60 passed (4.2m). An additional focused production-preview PDF case passed with the unchanged CSP loaded from vercel.json and injected into the actual static responses, with real nested workers and offline service-worker cache. Vite preview does not itself apply Vercel headers, so the explicit CSP case is separate evidence.
+- `npm audit`: 0 vulnerabilities after updating the pre-existing Vite advisory from 8.3.2 to 8.3.5. PDF.js exact 6.4.299, pdf-lib exact 1.17.1 for synthetic fixtures only. No tax-function, rule amount or production CSP change; SHA-256 of tax.ts, extendedTax.ts and vercel.json unchanged.
+- Fresh independent whole-change review found and regression-tested: valid credit reversed by zero-valued debit in edit initialization; PDF midpoint geometry reversing a right-aligned credit; queued autosave recreating cleared storage; queued recovery preserving a stale draft. Each reproducer was observed failing before its fix, then passing. Additional regressions cover dual-amount correction, user-excluded selection, field sizing, quota atomicity, queued cancellation, legacy schemas and Thai UTF-8 backup sizes. Existing immediate-reload tests now wait for a proved saved record because async locks cannot flush on unload.
+- Browser evidence: actual two-page PDF extraction/import/reimport offline, corrected CSV after save/reload, unchanged tax input, locked previously accepted invalid source rows, no external/POST financial requests, no page errors, axe, 375px mobile and desktop screenshots (`output/playwright/phase1-row-editor-375.png`, `phase1-pdf-desktop.png`). Existing 390/768/1280 light/dark page checks passed. No real bank file was used.
+- Known scope gaps: no certified per-bank variants (owner has no samples); generic compatible columns only. Scans, protected/unknown PDFs and later roadmap functionality remain out of scope. One conservative content-duplicate flag after editing a prior equal row is deferred; users can review/select it and exact-source protection is unaffected. Full decisions and file summary in PHASE-1-CORE-REPORT.md.
+
 ## Four UI refinements — 2026-10-04
 
 - 71 unit tests and 54 full Chrome browser tests passed. Lint, client/server type checks, format check and production/PWA build passed. Eight directly affected browser cases also passed after correcting mobile header spacing and dialog focus return.

@@ -118,7 +118,7 @@ test("legacy keys and schema migrate while paused autosave survives reload", () 
   );
   const old = readLocal(store);
   assert.equal(old.key, "bahtwise.local.v1");
-  assert.equal(old.data?.schemaVersion, 3);
+  assert.equal(old.data?.schemaVersion, 4);
   assert.equal(old.data?.autoSave, true);
   writeSaved(store, old.data!, null);
   assert.equal(readLocal(store).data?.transactions.length, 1);

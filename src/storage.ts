@@ -7,12 +7,18 @@ import {
 import { extendedDefaults } from "./extendedTax.ts";
 import { emptyPlan, type TaxPlan, rulesFor } from "./tax.ts";
 import { validDate, today, type Transaction } from "./ledger.ts";
+import {
+  decodeStatementImports,
+  emptyStatementImports,
+} from "./statementIdentity.ts";
+import type { StatementImportState } from "./statementTypes.ts";
 
 export const STORAGE_KEY = "mytax.local.v2";
 export const LEGACY_KEYS = ["bahtwise.local.v1", "mytax.local.v1"];
 export const MAX_BACKUP_BYTES = 5 * 1024 * 1024;
 export type Saved = {
-  schemaVersion: 3;
+  schemaVersion: 4;
+  statementImports: StatementImportState;
   ledgerSettings: LedgerSettings;
   ruleVersion: string;
   savedAt: string;
@@ -39,9 +45,11 @@ export function makeSaved(
   transactions: Transaction[],
   autoSave = true,
   ledgerSettings: LedgerSettings = emptyLedgerSettings(),
+  statementImports: StatementImportState = emptyStatementImports(),
 ): Saved {
   return {
-    schemaVersion: 3,
+    schemaVersion: 4,
+    statementImports,
     ledgerSettings,
     ruleVersion: rulesFor(taxPlan).version,
     savedAt: new Date().toISOString(),
@@ -97,7 +105,7 @@ function decode(raw: string, recover: boolean): Recovery {
   const data = JSON.parse(raw);
   if (
     !data ||
-    ![1, 2, 3].includes(data.schemaVersion) ||
+    ![1, 2, 3, 4].includes(data.schemaVersion) ||
     typeof data.ruleVersion !== "string" ||
     data.ruleVersion.length > 100 ||
     typeof data.savedAt !== "string" ||
@@ -202,6 +210,17 @@ function decode(raw: string, recover: boolean): Recovery {
       "อ่านการตั้งค่าหมวด/รายการประจำไม่ได้ เก็บต้นฉบับไว้ให้กู้คืน",
     );
   }
+  let statementImports = emptyStatementImports();
+  if (data.schemaVersion === 4) {
+    try {
+      statementImports = decodeStatementImports(data.statementImports);
+    } catch (error) {
+      if (!recover) throw error;
+      warnings.push(
+        "ประวัตินำเข้าไม่สมบูรณ์ เก็บต้นฉบับไว้ให้กู้คืนก่อนนำเข้าเพิ่ม",
+      );
+    }
+  }
   const ids = new Set<string>(),
     transactions: Transaction[] = [];
   let rejected = 0;
@@ -225,6 +244,7 @@ function decode(raw: string, recover: boolean): Recovery {
         transactions,
         data.schemaVersion === 1 ? true : data.autoSave,
         ledgerSettings,
+        statementImports,
       ),
       savedAt: data.savedAt,
       ruleVersion: compatibleUpgrade
@@ -265,7 +285,7 @@ export function writeSaved(
 ): string {
   if (store.getItem(STORAGE_KEY) !== expected) throw new StorageConflict();
   if (recoveryRaw) preserveRecovery(store, recoveryRaw);
-  const raw = JSON.stringify(saved);
+  const raw = serializeSaved(saved);
   store.setItem(STORAGE_KEY, raw);
   return raw;
 }
@@ -289,6 +309,25 @@ export function dataSignature(
   plan: TaxPlan,
   transactions: Transaction[],
   settings: LedgerSettings = emptyLedgerSettings(),
+  statementImports: StatementImportState = emptyStatementImports(),
 ): string {
-  return JSON.stringify([plan, transactions, settings]);
+  return JSON.stringify([plan, transactions, settings, statementImports]);
+}
+export function serializeSaved(data: Saved): string {
+  const raw = JSON.stringify(data);
+  if (new TextEncoder().encode(raw).length > MAX_BACKUP_BYTES)
+    throw new Error("ข้อมูลสำรองเกิน 5 MB กรุณาสำรองและแบ่งข้อมูลก่อน");
+  return raw;
+}
+export async function withLocalSavedWriteLock<T>(
+  operation: () => T,
+  requireLock = false,
+): Promise<T> {
+  if (typeof navigator !== "undefined" && navigator.locks)
+    return navigator.locks.request(STORAGE_KEY, () => operation());
+  if (requireLock)
+    throw new Error(
+      "เบราว์เซอร์นี้ยังบันทึก Statement อย่างปลอดภัยไม่ได้ ใช้แบบไม่บันทึกในแท็บนี้ได้",
+    );
+  return operation();
 }

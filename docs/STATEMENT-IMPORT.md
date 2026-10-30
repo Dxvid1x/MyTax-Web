@@ -1,4 +1,17 @@
-# Local saving and Statement imports — 2026-10-04
+# Local saving and Statement imports — 2026-10-30
+
+## Phase 1 core update
+
+- Adds generic text-layer PDF tables using PDF.js 6.4.299 and an explicit real worker port. Binary parsing and table/review processing stay in workers; no file upload or bank credentials. Required worker assets are precached for offline use. PDF.js's automatic worker setup assumes `window`, so the explicit port avoids its fake-worker fallback inside the outer worker. The package's generated port type is bridged locally to its supported runtime Worker parameter. PDF evaluation is not enabled; version 6 removed the older `isEvalSupported` option. CSP is unchanged.
+- Click “แก้รายการ” to correct a row's date, amount, direction or description. Revalidation occurs before confirmation. Money retains exact integer satang. Correcting one row does not reselect other rows the user excluded.
+- Exact input-byte SHA-256 and stable source locators identify accepted rows. “นำเข้าแล้ว” rows cannot be selected again, including after ledger edit/deletion, partial acceptance, local reload or backup restore carrying receipt history. “อาจซ้ำ” remains a separate reviewable content match. Renaming a file does not bypass its digest; changing its bytes produces a different source, so overlap still needs review. A locator/profile-version mismatch fails closed.
+- Saved schema 4 carries a minimal receipt sidecar; schemas 1–3 migrate with empty history. Receipts retain deletion tombstones, not raw cells, filenames or original files. Save/export use the same compact UTF-8 JSON limit of 5 MB. Existing backups without receipts cannot prove past source acceptance. Damaged history preserves the original and requires recovery review before another import.
+- Persisted writes coordinate with a shared Web Lock. Persistent import saves transactions/receipts together before publishing success; write failure consumes neither. Cancellation aborts a queued import. Without Web Locks, session-only importing is available; persistent Statement acceptance is blocked explicitly. Autosave now must complete before reload: an async lock cannot be guaranteed during unload, so unsaved state warns rather than promising a last-moment save.
+- In unsaved mode history lasts only in the open tab; saving/restoring a receipt-bearing backup preserves it. Clearing browser/app data or restoring an older backup resets that dataset's history.
+- PDF limits: 5 MB, 50 pages, 2,000,000 extracted characters, 200,000 text items, 20 seconds. CSV/XLSX retain 12 seconds. Maximum 1,000 receipt files / 20,000 accepted locators, within the shared backup cap. No silent pruning. Unknown/scanned/protected PDFs fail with a clear explanation; no OCR or password collection in this phase.
+- The owner has no bank samples; **all seven requested bank certifications remain pending**. See STATEMENT-FORMATS.md. This is a tested common-format core, not completion of seven bank adapters.
+
+The older workflow below remains applicable except for the PDF and exact-source duplicate restrictions described above.
 
 ## Current workflow
 
@@ -11,7 +24,7 @@
 ## Files and privacy
 
 - File size up to 5 MB; up to 10,000 ledger rows in total. Excel ZIP metadata is checked before inflation: at most 200 parts and 15 MB declared uncompressed content, with a 12-second worker timeout and a maximum of 10 worksheets. Each sheet is capped before rendering. CSV supports UTF-8, BOM UTF-16 and legacy Thai Windows-874, comma/semicolon/tab separators, quotes and multiline cells.
-- PDF, old `.xls` and password-protected files are not supported. Bank layouts differ, so no individual bank is advertised as certified without testing its redacted export. Excel uses saved cell values; verify totals against the original file. The reader does not execute spreadsheet formulas or macros.
+- Old `.xls`, scanned/unrecognised/protected PDFs and password-protected spreadsheets are not supported. Bank layouts differ, so no individual bank is advertised as certified without testing its redacted export. Excel uses saved cell values; verify totals against the original file. The reader does not execute spreadsheet formulas or macros.
 - Parsing runs in a same-origin, bundled Web Worker. No bank links, credentials, analytics, file upload or account requests. Raw files/filenames are not persisted; only selected ledger fields enter the existing local store when saving is enabled. No tax formula or CSP changes.
 - Excel reading uses the locally bundled MIT-licensed [read-excel-file worker API](https://github.com/catamphetamine/read-excel-file#worker), pinned by the lockfile. No third-party scripts/CDNs are loaded. The worker asset is included in the existing PWA precache, so imports work after the full app has loaded, including offline.
 - The deployable ledger API entry point and account UI/hook were removed. Supabase settings or remote resources were not modified/deleted. Earlier account-security unit tests still exercise historical unserved server code; old account browser scenarios are archived in `retired/account.spec.ts.txt`. They are replaced by tests for local saving, no uploads, unchanged tax/ledger, duplicate confirmation, errors/cancellation, Excel reading, offline reading and accessible layouts.

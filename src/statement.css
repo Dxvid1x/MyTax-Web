@@ -9,6 +9,34 @@
   background: var(--positive-soft);
   flex-wrap: wrap;
 }
+.statement-edit-button {
+  grid-column: 2 / -1;
+  justify-self: start;
+  min-height: 44px;
+}
+.statement-edit {
+  grid-column: 1 / -1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+}
+.statement-edit input,
+.statement-edit select {
+  min-width: 0;
+  width: 100%;
+}
+.statement-edit .field {
+  min-width: 0;
+}
+@media (max-width: 600px) {
+  .statement-edit {
+    grid-template-columns: 1fr;
+  }
+}
 .statement-entry .statement-import-trigger {
   min-height: 56px;
   padding: 14px 24px;
@@ -112,7 +140,7 @@
 }
 .statement-row {
   display: grid;
-  grid-template-columns: 22px minmax(0, 1fr) auto;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
   align-items: center;
   gap: 12px;
   padding: 16px;
@@ -129,6 +157,18 @@
 .statement-row input {
   width: 18px;
   height: 18px;
+}
+.statement-row .statement-select {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.statement-row .statement-edit :is(input, select) {
+  width: 100%;
+  height: auto;
+  min-height: 44px;
 }
 .statement-row small {
   display: block;

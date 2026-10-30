@@ -1,9 +1,11 @@
 # MyTax — current status
 
-Updated: 2026-10-04. Canonical project: `C:/Users/User/OneDrive/Documents/ChatGPT/MyTax`.
+Updated: 2026-10-30. Canonical project: `C:/Users/User/OneDrive/Documents/ChatGPT/MyTax`.
 Public site: https://mytax-indol.vercel.app
 
 ## Implemented
+
+- Phase 1 common-format core (2026-10-30), on `codex/statement-phase-1`: generic text-layer PDF import with real local worker/offline support; editable review rows; SHA-256/source-locator receipts preventing exact-file repeats across local save/restore; schema4 migration; shared write locks and queued-save invalidation; quotas/cancel/recovery safeguards. 86 unit tests, 60 full Chrome browser cases and an additional strict-production-CSP offline PDF case passed; lint/types, format and production build passed; dependency audit 0. Owner has no bank fixtures, so all seven bank-specific certifications remain pending. No production deployment or later roadmap phase claimed. See PHASE-1-CORE-REPORT.md / STATEMENT-FORMATS.md / VALIDATION.md.
 
 - Four UI refinements (2026-10-04): tax-law mascot now cries while gripping illustrated bars; Statement import has a larger green primary action; About moved from Settings into the five-item main navigation; live annual tax estimates are red throughout steps 1–3. Mobile header keeps inputs clear of fixed actions. Dialog cleanup restores keyboard focus to its opener. 71 unit/54 full Chrome cases passed; lint, formatting and production/PWA build passed. Tax engine and CSP hashes unchanged. READY `dpl_6DytQAKkPKm8EwZw3miTaEPXBfwj`; public assets/CSP and live mobile-light/desktop-dark checks verified. See UI-FOUR-POINTS-2026-10-04.md and VALIDATION.md for asset/prompt and release evidence.
 

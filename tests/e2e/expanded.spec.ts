@@ -129,6 +129,15 @@ test("ledger supports custom category, recurring confirmation, yearly filters an
   await expect(page.locator(".transaction")).toHaveCount(0);
   await page.getByRole("button", { name: "ล้างตัวกรอง" }).click();
   await expect(page.locator(".transaction")).toHaveCount(1);
+  // Saved writes now take a cross-tab Web Lock; unload cannot await it.
+  await expect
+    .poll(() =>
+      page.evaluate(
+        (key) => JSON.parse(localStorage.getItem(key)!).transactions.length,
+        STORAGE_KEY,
+      ),
+    )
+    .toBe(1);
   await page.reload();
   await expect(page.locator(".transaction")).toHaveCount(1);
   await page.locator(".recurring-panel summary").click();
@@ -161,6 +170,14 @@ test("past recurring rounds add only after confirmation and do not duplicate on 
   await page.getByRole("button", { name: "ปี", exact: true }).click();
   const count = await page.locator(".transaction").count();
   expect(count).toBeGreaterThan(0);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        (key) => JSON.parse(localStorage.getItem(key)!).transactions.length,
+        STORAGE_KEY,
+      ),
+    )
+    .toBe(count);
   await page.reload();
   await page.getByRole("button", { name: "ปี", exact: true }).click();
   await expect(page.locator(".transaction")).toHaveCount(count);

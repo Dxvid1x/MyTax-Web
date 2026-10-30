@@ -23,6 +23,7 @@ import { today } from "./ledger.ts";
 import {
   parseSaved,
   makeSaved,
+  serializeSaved,
   MAX_BACKUP_BYTES,
   type Saved,
 } from "./storage.ts";
@@ -206,10 +207,14 @@ function App() {
   };
   const exportBackup = () => {
     download(
-      JSON.stringify(
-        makeSaved(plan, transactions, persist, store.ledgerSettings),
-        null,
-        2,
+      serializeSaved(
+        makeSaved(
+          plan,
+          transactions,
+          persist,
+          store.ledgerSettings,
+          store.statementImports,
+        ),
       ),
       `MyTax-backup-${today()}.json`,
     );
@@ -245,8 +250,8 @@ function App() {
       setFileError(error instanceof Error ? error.message : "อ่านไฟล์ไม่ได้");
     }
   };
-  const clearAll = () => {
-    if (store.clearAll()) {
+  const clearAll = async () => {
+    if (await store.clearAll()) {
       setDialog(null);
       navigate("home");
       showToast("ล้างข้อมูลในเว็บแล้ว ไฟล์ที่ดาวน์โหลดต้องลบเอง");
@@ -459,7 +464,9 @@ function App() {
                 transactions={transactions}
                 setTransactions={setTransactions}
                 showToast={showToast}
-                importBlocked={conflict}
+                importBlocked={conflict || store.needsReview}
+                statementImports={store.statementImports}
+                commitStatementImport={store.commitStatementImport}
               />
               {fileError && (
                 <p className="workspace error-text" role="alert">
@@ -651,8 +658,8 @@ function App() {
               <button
                 className="primary full"
                 disabled={conflict}
-                onClick={() => {
-                  if (store.enableSaving()) {
+                onClick={async () => {
+                  if (await store.enableSaving()) {
                     setDialog(null);
                     showToast("เปิดบันทึกในเครื่องแล้ว");
                   }
@@ -672,21 +679,23 @@ function App() {
               <p>
                 สำรองสมุดเงินปัจจุบันก่อนยืนยัน
                 การนำเข้าไม่ได้รวมรายการเข้าด้วยกัน
+                และไฟล์สมุดเงินรุ่นเดิมไม่มีประวัติ Statement
+                จึงเริ่มตรวจไฟล์ซ้ำใหม่หลังแทนข้อมูล
               </p>
               <button
                 className="primary full"
                 disabled={conflict}
-                onClick={() => {
+                onClick={async () => {
                   const next = pendingLedgerImport.document;
                   if (
-                    !store.importBackup(
+                    !(await store.importBackup(
                       makeSaved(
                         plan,
                         next.transactions,
                         persist,
                         next.settings,
                       ),
-                    )
+                    ))
                   )
                     return;
                   setPendingLedgerImport(null);
@@ -706,8 +715,8 @@ function App() {
               </p>
               <button
                 className="secondary full"
-                onClick={() => {
-                  if (store.pauseSaving()) {
+                onClick={async () => {
+                  if (await store.pauseSaving()) {
                     setDialog(null);
                     showToast("พักการบันทึกแล้ว สำเนาล่าสุดยังอยู่");
                   }
@@ -742,8 +751,8 @@ function App() {
               </button>
               <button
                 className="primary full"
-                onClick={() => {
-                  if (store.reloadLatest()) {
+                onClick={async () => {
+                  if (await store.reloadLatest()) {
                     setDialog(null);
                     showToast("โหลดข้อมูลล่าสุดแล้ว");
                   }
@@ -771,8 +780,8 @@ function App() {
               </button>
               <button
                 className="primary full"
-                onClick={() => {
-                  if (store.importBackup(pendingImport)) {
+                onClick={async () => {
+                  if (await store.importBackup(pendingImport)) {
                     setDialog(null);
                     setPendingImport(null);
                     navigate("ledger");

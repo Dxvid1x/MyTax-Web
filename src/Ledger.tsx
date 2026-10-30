@@ -37,6 +37,10 @@ import { TransactionForm } from "./TransactionForm.tsx";
 import { Modal } from "./Modal.tsx";
 import { fmt, dateLabel } from "./taxDisplay.tsx";
 import { StatementImport } from "./StatementImport.tsx";
+import type {
+  StatementImportIntent,
+  StatementImportState,
+} from "./statementTypes.ts";
 export function Ledger({
   transactions,
   setTransactions,
@@ -44,6 +48,8 @@ export function Ledger({
   settings,
   setSettings,
   importBlocked = false,
+  statementImports,
+  commitStatementImport,
 }: {
   settings: LedgerSettings;
   setSettings: (s: LedgerSettings) => void;
@@ -51,6 +57,11 @@ export function Ledger({
   setTransactions: (v: Transaction[]) => void;
   showToast: (s: string) => void;
   importBlocked?: boolean;
+  statementImports: StatementImportState;
+  commitStatementImport: (
+    intent: StatementImportIntent,
+    options?: { signal?: AbortSignal },
+  ) => Promise<{ ok: true; added: number } | { ok: false; error: string }>;
 }) {
   const [period, setPeriod] = useState<"week" | "month" | "year">("month");
   const [anchor, setAnchor] = useState(today());
@@ -170,9 +181,13 @@ export function Ledger({
         <StatementImport
           transactions={transactions}
           blocked={importBlocked}
+          statementImports={statementImports}
           onClose={() => setStatementOpen(false)}
-          onImport={(rows) => {
-            setTransactions([...transactions, ...rows]);
+          onImport={async (intent, options) => {
+            const result = await commitStatementImport(intent, options);
+            if (!result.ok) throw new Error(result.error);
+            const rows = intent.selected;
+            if (!rows.length) return;
             setAnchor(
               rows.reduce(
                 (latest, row) => (row.date > latest ? row.date : latest),
@@ -185,7 +200,7 @@ export function Ledger({
             setFilterCategory("all");
             setStatementOpen(false);
             showToast(
-              `นำเข้า ${rows.length} รายการแล้ว ตรวจสถานะบันทึกก่อนปิดเว็บ`,
+              `นำเข้า ${result.added} รายการแล้ว ตรวจสถานะบันทึกก่อนปิดเว็บ`,
             );
           }}
         />

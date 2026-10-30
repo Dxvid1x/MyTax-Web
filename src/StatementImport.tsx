@@ -1,16 +1,25 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FileSpreadsheet, ShieldCheck } from "lucide-react";
 import { Modal } from "./Modal.tsx";
 import { fmt, dateLabel } from "./taxDisplay.tsx";
 import { today, type Transaction } from "./ledger.ts";
 import {
   guessStatementMapping,
-  importStatementRows,
   previewStatement,
   STATEMENT_MAX_BYTES,
   type StatementMapping,
   type StatementSheet,
 } from "./statement.ts";
+import { emptyStatementImports } from "./statementIdentity.ts";
+import { initialStatementEdit } from "./statementEdit.ts";
+import { selectionAfterReview } from "./statementReview.ts";
+import type {
+  StatementDocument,
+  StatementEdit,
+  StatementImportIntent,
+  StatementImportState,
+  StatementReviewRow,
+} from "./statementTypes.ts";
 import "./statement.css";
 
 export function StatementImport({
@@ -18,11 +27,16 @@ export function StatementImport({
   blocked,
   onClose,
   onImport,
+  statementImports = emptyStatementImports(),
 }: {
   transactions: Transaction[];
   blocked: boolean;
   onClose: () => void;
-  onImport: (rows: Transaction[]) => void;
+  onImport: (
+    intent: StatementImportIntent,
+    options?: { signal?: AbortSignal },
+  ) => Promise<void>;
+  statementImports?: StatementImportState;
 }) {
   const [sheets, setSheets] = useState<StatementSheet[]>([]);
   const [sheetIndex, setSheetIndex] = useState(0);
@@ -35,6 +49,17 @@ export function StatementImport({
   const [duplicatesConfirmed, setDuplicatesConfirmed] = useState(false);
   const [visible, setVisible] = useState(100);
   const [mappingOpen, setMappingOpen] = useState(false);
+  const [document, setDocument] = useState<StatementDocument | null>(null);
+  const [edits, setEdits] = useState<Record<string, StatementEdit>>({});
+  const [editing, setEditing] = useState<string | null>(null);
+  const [committing, setCommitting] = useState(false);
+  const commitAbort = useRef<AbortController | null>(null);
+  const [preview, setPreview] = useState<{
+    rows: StatementReviewRow[];
+    error: string;
+  }>({ rows: [], error: "" });
+  const [reviewing, setReviewing] = useState(false);
+  const previousReview = useRef<StatementReviewRow[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
   const worker = useRef<Worker | null>(null);
   const timeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -42,40 +67,73 @@ export function StatementImport({
   useEffect(
     () => () => {
       request.current++;
+      commitAbort.current?.abort();
       worker.current?.terminate();
       clearTimeout(timeout.current);
     },
     [],
   );
   const sheet = sheets[sheetIndex];
-  const preview = useMemo(() => {
-    if (!sheet || !mapping) return { rows: [], error: "" };
-    try {
-      return {
-        rows: previewStatement(sheet.rows, mapping, transactions),
-        error: "",
-      };
-    } catch (err) {
-      return {
-        rows: [],
-        error: err instanceof Error ? err.message : "ตรวจคอลัมน์อีกครั้ง",
-      };
-    }
-  }, [sheet, mapping, transactions]);
   useEffect(() => {
-    setSelected(
-      new Set(
-        preview.rows
-          .filter((row) => !row.error && !row.duplicate)
-          .map((row) => row.row),
-      ),
+    if (!document || !mapping) {
+      setPreview({ rows: [], error: "" });
+      return;
+    }
+    setReviewing(true);
+    setConfirmed(false);
+    setDuplicatesConfirmed(false);
+    const reader = new Worker(
+      new URL("./statementWorker.ts", import.meta.url),
+      { type: "module" },
     );
+    const timer = setTimeout(() => {
+      reader.terminate();
+      setPreview({ rows: [], error: "ตรวจรายการนานเกินไป กรุณาแบ่งไฟล์" });
+      setReviewing(false);
+    }, 12000);
+    reader.onmessage = (
+      event: MessageEvent<{ rows?: StatementReviewRow[]; error?: string }>,
+    ) => {
+      clearTimeout(timer);
+      setPreview({
+        rows: event.data.rows || [],
+        error: event.data.error || "",
+      });
+      setReviewing(false);
+      reader.terminate();
+    };
+    reader.onerror = () => {
+      clearTimeout(timer);
+      setPreview({ rows: [], error: "ตรวจรายการไม่ได้ กรุณาตรวจไฟล์" });
+      setReviewing(false);
+      reader.terminate();
+    };
+    reader.postMessage({
+      kind: "review",
+      document,
+      sheetIndex,
+      mapping,
+      edits,
+      existing: transactions,
+      imports: statementImports,
+    });
+    return () => {
+      clearTimeout(timer);
+      reader.terminate();
+    };
+  }, [document, mapping, sheetIndex, edits, transactions, statementImports]);
+  useEffect(() => {
+    const previous = previousReview.current;
+    setSelected((current) =>
+      selectionAfterReview(preview.rows, previous, current),
+    );
+    previousReview.current = preview.rows;
     setConfirmed(false);
     setDuplicatesConfirmed(false);
     setVisible(100);
   }, [preview]);
   const chosen = preview.rows.filter(
-    (row) => selected.has(row.row) && !row.error,
+    (row) => selected.has(row.row) && !row.error && !row.alreadyImported,
   );
   const duplicates = chosen.some((row) => row.duplicate);
   const income = chosen
@@ -89,24 +147,31 @@ export function StatementImport({
     worker.current?.terminate();
     clearTimeout(timeout.current);
     setSheets([]);
+    previousReview.current = [];
     setMapping(null);
     setError("");
     setBusy(false);
     setFilename("");
+    setDocument(null);
+    setEdits({});
+    setEditing(null);
     try {
-      if (!/\.(csv|xlsx)$/i.test(file.name))
+      if (!/\.(csv|xlsx|pdf)$/i.test(file.name))
         throw new Error(
-          "เลือกไฟล์ CSV หรือ Excel (.xlsx) · ยังไม่รองรับ PDF และ .xls",
+          "เลือกไฟล์ CSV, Excel (.xlsx) หรือ PDF ที่เลือกข้อความได้ · ยังไม่รองรับ .xls",
         );
       if (file.size > STATEMENT_MAX_BYTES)
         throw new Error("ไฟล์ต้องไม่เกิน 5 MB");
       setBusy(true);
       const buffer = await file.arrayBuffer();
       if (request.current !== generation) return;
-      const reader = new Worker(
-        new URL("./statementWorker.ts", import.meta.url),
-        { type: "module" },
-      );
+      const reader = /\.pdf$/i.test(file.name)
+        ? new Worker(new URL("./statementPdfWorker.ts", import.meta.url), {
+            type: "module",
+          })
+        : new Worker(new URL("./statementWorker.ts", import.meta.url), {
+            type: "module",
+          });
       worker.current = reader;
       const fail = (message: string) => {
         if (request.current !== generation) return;
@@ -117,12 +182,16 @@ export function StatementImport({
       };
       timeout.current = setTimeout(
         () => fail("อ่านไฟล์นานเกินไป กรุณาแบ่งไฟล์ให้เล็กลง"),
-        12000,
+        /\.pdf$/i.test(file.name) ? 20000 : 12000,
       );
       reader.onerror = () =>
         fail("อ่านไฟล์ไม่ได้ กรุณาตรวจว่าไฟล์ไม่เสียหายและไม่ใส่รหัสผ่าน");
       reader.onmessage = (
-        event: MessageEvent<{ sheets?: StatementSheet[]; error?: string }>,
+        event: MessageEvent<{
+          sheets?: StatementSheet[];
+          document?: StatementDocument;
+          error?: string;
+        }>,
       ) => {
         if (request.current !== generation) return;
         if (event.data.error || !event.data.sheets?.length) {
@@ -134,6 +203,7 @@ export function StatementImport({
         setBusy(false);
         setFilename(file.name);
         setSheets(event.data.sheets);
+        setDocument(event.data.document || null);
         setSheetIndex(0);
         const guessed = guessStatementMapping(event.data.sheets[0].rows);
         setMapping(guessed);
@@ -186,7 +256,7 @@ export function StatementImport({
     const url = URL.createObjectURL(
       new Blob([data], { type: "text/csv;charset=utf-8" }),
     );
-    const a = document.createElement("a");
+    const a = globalThis.document.createElement("a");
     a.href = url;
     a.download = "MyTax-statement-example.csv";
     a.click();
@@ -205,14 +275,14 @@ export function StatementImport({
             className="secondary"
             onClick={() => fileInput.current?.click()}
           >
-            เลือกไฟล์ CSV หรือ Excel (.xlsx)
+            เลือกไฟล์ CSV, Excel (.xlsx) หรือ PDF
           </button>
           <input
             ref={fileInput}
             hidden
             aria-label="ไฟล์ Statement"
             type="file"
-            accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            accept=".csv,.xlsx,.pdf,text/csv,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             onChange={(e) => {
               const file = e.target.files?.[0];
               e.target.value = "";
@@ -220,8 +290,9 @@ export function StatementImport({
             }}
           />
           <small>
-            ไม่เกิน 5 MB · สูงสุด 10,000 รายการ · ยังไม่รองรับ PDF, .xls
-            หรือไฟล์ใส่รหัสผ่าน
+            ไม่เกิน 5 MB · สูงสุด 10,000 รายการ · PDF
+            ต้องเลือกข้อความได้และไม่ติดรหัส สูงสุด 50 หน้า · ยังไม่รองรับ .xls
+            หรือภาพสแกน
           </small>
           <button className="text-button" onClick={sample}>
             ดาวน์โหลดไฟล์ตัวอย่าง
@@ -236,6 +307,14 @@ export function StatementImport({
         {sheet && mapping && (
           <>
             <p className="statement-filename">{filename}</p>
+            <p className="statement-hint">
+              ตรวจคอลัมน์อัตโนมัติ · ยังไม่รับรองรูปแบบรายธนาคาร
+            </p>
+            {document?.warnings.map((warning, index) => (
+              <p className="statement-hint" key={index}>
+                {warning}
+              </p>
+            ))}
             <details
               className="statement-column-panel"
               open={mappingOpen}
@@ -353,7 +432,12 @@ export function StatementImport({
                     setSelected(
                       new Set(
                         preview.rows
-                          .filter((row) => !row.error && !row.duplicate)
+                          .filter(
+                            (row) =>
+                              !row.error &&
+                              !row.duplicate &&
+                              !row.alreadyImported,
+                          )
                           .map((row) => row.row),
                       ),
                     )
@@ -363,32 +447,41 @@ export function StatementImport({
                 </button>
                 <div className="statement-rows">
                   {preview.rows.slice(0, visible).map((row) => (
-                    <label
+                    <div
                       key={row.row}
                       className={`statement-row ${row.error ? "statement-invalid" : row.type}`}
                     >
-                      <input
-                        type="checkbox"
-                        aria-label={`นำเข้าแถว ${row.row}`}
-                        disabled={!!row.error}
-                        checked={selected.has(row.row)}
-                        onChange={(e) => {
-                          const checked = e.target.checked;
-                          setSelected((current) => {
-                            const next = new Set(current);
-                            if (checked) next.add(row.row);
-                            else next.delete(row.row);
-                            return next;
-                          });
-                          setConfirmed(false);
-                          setDuplicatesConfirmed(false);
-                        }}
-                      />
+                      <label className="statement-select">
+                        <input
+                          type="checkbox"
+                          aria-label={`นำเข้าแถว ${row.row}`}
+                          disabled={
+                            !!row.error ||
+                            row.alreadyImported ||
+                            reviewing ||
+                            committing
+                          }
+                          checked={selected.has(row.row)}
+                          onChange={(e) => {
+                            const checked = e.target.checked;
+                            setSelected((current) => {
+                              const next = new Set(current);
+                              if (checked) next.add(row.row);
+                              else next.delete(row.row);
+                              return next;
+                            });
+                            setConfirmed(false);
+                            setDuplicatesConfirmed(false);
+                          }}
+                        />
+                      </label>
                       <span>
                         <strong>{row.note || `รายการแถว ${row.row}`}</strong>
                         <small>
                           {row.date ? dateLabel(row.date) : `แถว ${row.row}`}{" "}
                           {row.duplicate ? "· อาจซ้ำ โปรดตรวจ" : ""}
+                          {row.alreadyImported ? " · นำเข้าแล้ว" : ""}
+                          {row.origin.page ? ` · หน้า ${row.origin.page}` : ""}
                         </small>
                         {row.error && (
                           <small className="error-text">{row.error}</small>
@@ -401,7 +494,81 @@ export function StatementImport({
                           <small>บาท</small>
                         </strong>
                       )}
-                    </label>
+                      {!row.alreadyImported && (
+                        <button
+                          className="text-button statement-edit-button"
+                          disabled={committing || reviewing}
+                          aria-label={`แก้รายการแถว ${row.row}`}
+                          onClick={() => {
+                            const source = sheet.rows[row.row - 1];
+                            setEdits((current) => ({
+                              ...current,
+                              [row.origin.locator]:
+                                current[row.origin.locator] ||
+                                initialStatementEdit(row, source, mapping),
+                            }));
+                            setEditing(row.origin.locator);
+                          }}
+                        >
+                          แก้รายการ
+                        </button>
+                      )}
+                      {editing === row.origin.locator && edits[editing] && (
+                        <fieldset className="statement-edit">
+                          <legend>แก้รายการแถว {row.row}</legend>
+                          {(
+                            [
+                              ["date", "วันที่"],
+                              ["amount", "จำนวนเงิน (บาท)"],
+                              ["note", "รายละเอียด"],
+                            ] as const
+                          ).map(([key, label]) => (
+                            <label className="field" key={key}>
+                              <span>{label}</span>
+                              <input
+                                aria-label={`${label}แถว ${row.row}`}
+                                value={edits[editing][key]}
+                                onChange={(e) =>
+                                  setEdits((current) => ({
+                                    ...current,
+                                    [editing]: {
+                                      ...current[editing],
+                                      [key]: e.target.value,
+                                    },
+                                  }))
+                                }
+                              />
+                            </label>
+                          ))}
+                          <label className="field">
+                            <span>ประเภท</span>
+                            <select
+                              aria-label={`ประเภทแถว ${row.row}`}
+                              value={edits[editing].type}
+                              onChange={(e) =>
+                                setEdits((current) => ({
+                                  ...current,
+                                  [editing]: {
+                                    ...current[editing],
+                                    type: e.target.value as
+                                      "income" | "expense",
+                                  },
+                                }))
+                              }
+                            >
+                              <option value="income">เงินเข้า</option>
+                              <option value="expense">เงินออก</option>
+                            </select>
+                          </label>
+                          <button
+                            className="secondary"
+                            onClick={() => setEditing(null)}
+                          >
+                            เสร็จสิ้นการแก้รายการ
+                          </button>
+                        </fieldset>
+                      )}
+                    </div>
                   ))}
                 </div>
                 {preview.rows.length > visible && (
@@ -452,18 +619,29 @@ export function StatementImport({
                   className="primary full"
                   disabled={
                     busy ||
+                    reviewing ||
+                    committing ||
+                    !document ||
                     blocked ||
                     !chosen.length ||
                     !confirmed ||
                     (duplicates && !duplicatesConfirmed)
                   }
-                  onClick={() => {
+                  onClick={async () => {
                     try {
-                      onImport(importStatementRows(chosen, transactions));
+                      if (!document) return;
+                      commitAbort.current = new AbortController();
+                      setCommitting(true);
+                      await onImport(
+                        { document, selected: chosen },
+                        { signal: commitAbort.current.signal },
+                      );
                     } catch (err) {
                       setError(
                         err instanceof Error ? err.message : "นำเข้าไม่ได้",
                       );
+                    } finally {
+                      setCommitting(false);
                     }
                   }}
                 >

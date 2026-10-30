@@ -215,7 +215,7 @@ test("JSON download round trip restores exact data; malformed import leaves ledg
 }) => {
   await seed(page, fixture("2569"));
   const { data, file } = await backup(page);
-  expect(data.schemaVersion).toBe(3);
+  expect(data.schemaVersion).toBe(4);
   expect(data.transactions[0].amount).toBe(123450);
   await page.locator("input[type=file]").setInputFiles({
     name: "bad.json",
