@@ -818,3 +818,17 @@
     transition: none;
   }
 }
+
+/* Shared inset for all six opened topics, including heading-first panels. */
+.trust-page .trust-section[data-open="true"] .trust-section-body {
+  padding: 32px 32px 32px 32px;
+  border-top: 1px solid var(--line);
+}
+.trust-page .trust-section-body > :first-child {
+  margin-top: 0;
+}
+@media (max-width: 760px) {
+  .trust-page .trust-section[data-open="true"] .trust-section-body {
+    padding: 24px 20px 28px;
+  }
+}

@@ -225,3 +225,43 @@ test("FAQ uses clear cards, supports keyboard and opens one answer at a time", a
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(390);
 });
+
+for (const width of [390, 1280])
+  test(`all six About panels keep content clear of the header border at ${width}px`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.setViewportSize({ width, height: 960 });
+    await page.goto("/about");
+    for (const name of [
+      "ขอบเขตการคำนวณ",
+      "วิธีคำนวณและตัวอย่าง",
+      "กฎและแหล่งอ้างอิง",
+      "ข้อมูลอยู่ที่ไหน?",
+      "คำถามที่พบบ่อย",
+      "ผู้จัดทำและการติดต่อ",
+    ]) {
+      const toggle = page.getByRole("button", { name, exact: true });
+      await toggle.click();
+      const section = page.locator('.trust-section[data-open="true"]');
+      const header = await toggle.boundingBox();
+      const content = await section
+        .locator(".trust-section-body > :first-child")
+        .boundingBox();
+      const card = await section.boundingBox();
+      expect(header).not.toBeNull();
+      expect(content).not.toBeNull();
+      expect(card).not.toBeNull();
+      expect(
+        content!.y - (header!.y + header!.height),
+        name + " top inset",
+      ).toBeGreaterThanOrEqual(24);
+      expect(content!.x - card!.x, name + " left inset").toBeGreaterThanOrEqual(
+        20,
+      );
+      expect(
+        card!.x + card!.width - (content!.x + content!.width),
+        name + " right inset",
+      ).toBeGreaterThanOrEqual(20);
+    }
+  });
