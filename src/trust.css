@@ -511,7 +511,7 @@
   overflow: hidden;
 }
 .trust-section-body {
-  padding: 0 24px 24px 60px;
+  padding: 24px 28px 28px 60px;
 }
 .trust-page .trust-section-body p {
   font-size: 0.9375rem;
@@ -648,7 +648,7 @@
     font-size: 0.9375rem;
   }
   .trust-section-body {
-    padding: 0 16px 20px;
+    padding: 20px 18px 24px;
   }
   .trust-calculation {
     padding: 16px;
