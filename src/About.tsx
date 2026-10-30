@@ -452,12 +452,23 @@ export function About({
           title="คำถามที่พบบ่อย"
           icon={<CircleHelp size={20} />}
         >
-          {faqs.map(([question, answer]) => (
-            <details key={question}>
-              <summary>{question}</summary>
-              <p>{answer}</p>
-            </details>
-          ))}
+          <div className="trust-faq-list">
+            {faqs.map(([question, answer]) => (
+              <details
+                key={question}
+                className="trust-faq-item"
+                name="mytax-faq"
+              >
+                <summary>
+                  <span>{question}</span>
+                  <ChevronDown size={17} aria-hidden="true" />
+                </summary>
+                <div className="trust-faq-answer">
+                  <p>{answer}</p>
+                </div>
+              </details>
+            ))}
+          </div>
         </TrustSection>
         <TrustSection
           {...sectionProps("contact")}

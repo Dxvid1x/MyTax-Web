@@ -202,3 +202,26 @@ for (const theme of ["light", "dark"])
       path: `output/about-compact-${theme}-desktop.png`,
     });
   });
+
+test("FAQ uses clear cards, supports keyboard and opens one answer at a time", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/about");
+  await page
+    .getByRole("button", { name: "คำถามที่พบบ่อย", exact: true })
+    .click();
+  const cards = page.locator(".trust-faq-item");
+  await expect(cards).toHaveCount(7);
+  await cards.first().locator("summary").focus();
+  await page.keyboard.press("Enter");
+  await expect(cards.first()).toHaveAttribute("open", "");
+  await expect(cards.first().locator("p")).toBeVisible();
+  await cards.nth(1).locator("summary").click();
+  await expect(cards.nth(1)).toHaveAttribute("open", "");
+  await expect(cards.first()).not.toHaveAttribute("open", "");
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(390);
+});
