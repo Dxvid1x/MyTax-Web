@@ -828,7 +828,6 @@ function Home({
     >
       <HomeOpening
         onTax={() => navigate("tax")}
-        onDemo={() => navigate("showcase")}
         onTrust={() => navigate("about")}
       />
       <div className="home-content">

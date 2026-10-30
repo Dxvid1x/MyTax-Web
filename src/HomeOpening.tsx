@@ -4,11 +4,9 @@ import "./opening.css";
 
 export function HomeOpening({
   onTax,
-  onDemo,
   onTrust,
 }: {
   onTax: () => void;
-  onDemo: () => void;
   onTrust: () => void;
 }) {
   const root = useRef<HTMLElement>(null);
@@ -170,13 +168,6 @@ export function HomeOpening({
             onClick={onTax}
           >
             คำนวณภาษีของฉัน
-          </button>
-          <button
-            className="secondary opening-demo"
-            type="button"
-            onClick={onDemo}
-          >
-            ลองเดโม · TH / EN
           </button>
         </div>
         <button className="opening-story-link" type="button" onClick={begin}>

@@ -15,7 +15,10 @@ test("presentation demo compares real calculations without changing saved data",
   });
   await page.reload();
   const saved = await page.evaluate(() => JSON.stringify({ ...localStorage }));
-  await page.getByRole("button", { name: "ลองเดโม · TH / EN" }).click();
+  await expect(
+    page.getByRole("button", { name: "ลองเดโม · TH / EN" }),
+  ).toHaveCount(0);
+  await page.goto("/showcase");
   await expect(page).toHaveURL(/\/showcase$/);
   await expect(
     page.getByRole("heading", {
